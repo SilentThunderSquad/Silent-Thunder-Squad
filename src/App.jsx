@@ -1,104 +1,159 @@
-import { useEffect } from 'react'
-import { useLenis } from './hooks/useLenis'
-import { useSoundManager, useScrollSounds, useThunderSounds } from './hooks/useSounds'
+import { useCallback, useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import { Howl, Howler } from "howler";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import WhatWeDo from "@/components/WhatWeDo";
+import Projects from "@/components/Projects";
+import Team from "@/components/Team";
 
-// Import sections
-import HeroSection from './components/sections/HeroSection'
-import WhoWeAreSection from './components/sections/WhoWeAreSection'
-import WhatWeDoSection from './components/sections/WhatWeDoSection'
-import ProjectShowcaseSection from './components/sections/ProjectShowcaseSection'
-import TeamMembersSection from './components/sections/TeamMembersSection'
-import CallToActionSection from './components/sections/CallToActionSection'
-import Footer from './components/sections/Footer'
+gsap.registerPlugin(ScrollTrigger);
 
-// Import common components
-import ScrollProgress from './components/common/ScrollProgress'
-import SoundToggle from './components/common/SoundToggle'
+function createThunderWavUrl() {
+  const sampleRate = 22050;
+  const duration = 1.25;
+  const totalSamples = Math.floor(sampleRate * duration);
+  const pcm = new Int16Array(totalSamples);
 
-function App() {
-  // Initialize smooth scrolling
-  const { scrollTo } = useLenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smooth: true,
-    mouseMultiplier: 1,
-    touchMultiplier: 2,
-  })
+  for (let i = 0; i < totalSamples; i += 1) {
+    const t = i / sampleRate;
+    const decay = Math.exp(-2.2 * t);
+    const noise = (Math.random() * 2 - 1) * 0.55 * decay;
+    const rumble = Math.sin(2 * Math.PI * 48 * t) * 0.38 * Math.exp(-1.4 * t);
+    const crack = t < 0.08 ? (Math.random() * 2 - 1) * Math.exp(-35 * t) * 0.92 : 0;
+    const sample = Math.max(-1, Math.min(1, noise + rumble + crack));
+    pcm[i] = sample * 32767;
+  }
 
-  // Initialize sound management
-  const { isMuted, toggleMute } = useSoundManager()
-  const { playThunder } = useThunderSounds()
+  const dataSize = pcm.length * 2;
+  const buffer = new ArrayBuffer(44 + dataSize);
+  const view = new DataView(buffer);
 
-  // Add scroll sounds
-  useScrollSounds()
+  const writeString = (offset, str) => {
+    for (let i = 0; i < str.length; i += 1) {
+      view.setUint8(offset + i, str.charCodeAt(i));
+    }
+  };
 
-  useEffect(() => {
-    // Play initial thunder sound after a short delay
-    const timer = setTimeout(() => {
-      if (!isMuted) {
-        playThunder()
-      }
-    }, 2000)
+  writeString(0, "RIFF");
+  view.setUint32(4, 36 + dataSize, true);
+  writeString(8, "WAVE");
+  writeString(12, "fmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  writeString(36, "data");
+  view.setUint32(40, dataSize, true);
 
-    return () => clearTimeout(timer)
-  }, [isMuted, playThunder])
+  let offset = 44;
+  for (let i = 0; i < pcm.length; i += 1) {
+    view.setInt16(offset, pcm[i], true);
+    offset += 2;
+  }
 
-  return (
-    <div className="min-h-screen bg-gradient-bg text-white overflow-x-hidden">
-      {/* Scroll Progress Bar */}
-      <ScrollProgress />
-
-      {/* Sound Toggle */}
-      <SoundToggle isMuted={isMuted} onToggle={toggleMute} />
-
-      {/* Main Content */}
-      <main>
-        {/* Hero Section */}
-        <section id="hero" className="relative">
-          <HeroSection />
-        </section>
-
-        {/* Who We Are Section */}
-        <section id="who-we-are" className="relative">
-          <WhoWeAreSection />
-        </section>
-
-        {/* What We Do Section */}
-        <section id="what-we-do" className="relative">
-          <WhatWeDoSection />
-        </section>
-
-        {/* Project Showcase Section */}
-        <section id="projects" className="relative">
-          <ProjectShowcaseSection />
-        </section>
-
-        {/* Team Members Section */}
-        <section id="team" className="relative">
-          <TeamMembersSection />
-        </section>
-
-        {/* Call to Action Section */}
-        <section id="cta" className="relative">
-          <CallToActionSection />
-        </section>
-
-        {/* Footer */}
-        <Footer scrollTo={scrollTo} />
-      </main>
-
-      {/* Background decorative elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-3/4 left-1/2 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }} />
-
-        {/* Noise texture overlay */}
-        <div className="absolute inset-0 bg-noise opacity-5 mix-blend-multiply" />
-      </div>
-    </div>
-  )
+  return URL.createObjectURL(new Blob([buffer], { type: "audio/wav" }));
 }
 
-export default App
+export default function App() {
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const lastStrikeRef = useRef(0);
+  const thunderSoundRef = useRef(null);
+  const thunderUrlRef = useRef("");
+
+  const ensureThunderSound = useCallback(() => {
+    if (thunderSoundRef.current) return thunderSoundRef.current;
+    if (!thunderUrlRef.current) {
+      thunderUrlRef.current = createThunderWavUrl();
+    }
+    thunderSoundRef.current = new Howl({
+      src: [thunderUrlRef.current],
+      format: ["wav"],
+      html5: false,
+      pool: 1,
+      volume: 0.22,
+      preload: true,
+      onloaderror: () => {
+        // Ignore audio load failures; visuals stay fully functional.
+      }
+    });
+    return thunderSoundRef.current;
+  }, []);
+
+  const playThunder = useCallback(() => {
+    if (!soundEnabled) return;
+    const now = performance.now();
+    if (now - lastStrikeRef.current < 900) return;
+    lastStrikeRef.current = now;
+    const sound = ensureThunderSound();
+    sound.stop();
+    sound.play();
+  }, [ensureThunderSound, soundEnabled]);
+
+  const handleToggleSound = useCallback(() => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    if (!next) return;
+
+    // This runs directly from button click (user gesture), so it can unlock WebAudio.
+    ensureThunderSound();
+    if (Howler.ctx?.state === "suspended") {
+      Howler.ctx.resume().catch(() => {});
+    }
+    Howler.mute(false);
+  }, [ensureThunderSound, soundEnabled]);
+
+  useEffect(() => {
+    // Lenis is the only scroll engine; GSAP uses Lenis RAF for all ScrollTrigger updates.
+    const lenis = new Lenis({
+      duration: 1.15,
+      smoothWheel: true,
+      syncTouch: true,
+      touchMultiplier: 1.1
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const update = (time) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(update);
+    gsap.ticker.lagSmoothing(0);
+
+    const refreshTimeout = setTimeout(() => ScrollTrigger.refresh(), 200);
+
+    return () => {
+      clearTimeout(refreshTimeout);
+      gsap.ticker.remove(update);
+      lenis.destroy();
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      thunderSoundRef.current?.unload();
+      if (thunderUrlRef.current) {
+        URL.revokeObjectURL(thunderUrlRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <main className="bg-background text-foreground">
+      <Hero onStrike={playThunder} soundEnabled={soundEnabled} toggleSound={handleToggleSound} />
+      <About />
+      <WhatWeDo />
+      <Projects />
+      <Team />
+      <footer className="px-6 pb-10 pt-20 text-center text-sm text-white/40 md:px-14">
+        Silent Thunder Squad © 2026
+      </footer>
+    </main>
+  );
+}

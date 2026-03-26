@@ -2,8 +2,6 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=react
 
 ### react ###
-.node_modules/
-dist/
 .DS_*
 *.log
 logs
