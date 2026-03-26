@@ -1,0 +1,45 @@
+{
+  "name": "silent-thunder-squad",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Premium landing page for Silent Thunder Squad - A tech organization of Computer Science enthusiasts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "gsap": "^3.12.5",
+    "lenis": "^1.0.45",
+    "split-type": "^0.3.4",
+    "howler": "^2.2.4",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-navigation-menu": "^1.1.4",
+    "lucide-react": "^0.358.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/howler": "^2.2.11",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.1",
+    "eslint": "^8.57.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "@tailwindcss/typography": "^0.5.13"
+  }
+}
