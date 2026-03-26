@@ -8,6 +8,7 @@ import About from "@/components/About";
 import WhatWeDo from "@/components/WhatWeDo";
 import Projects from "@/components/Projects";
 import Team from "@/components/Team";
+import thunderSoundFile from "../thundersound.mp3";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,26 +65,41 @@ export default function App() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const lastStrikeRef = useRef(0);
   const thunderSoundRef = useRef(null);
-  const thunderUrlRef = useRef("");
+  const fallbackThunderUrlRef = useRef("");
+
+  const buildFallbackThunder = useCallback(() => {
+    if (!fallbackThunderUrlRef.current) {
+      fallbackThunderUrlRef.current = createThunderWavUrl();
+    }
+    return new Howl({
+      src: [fallbackThunderUrlRef.current],
+      format: ["wav"],
+      html5: false,
+      pool: 2,
+      volume: 0.2,
+      preload: true,
+    });
+  }, []);
 
   const ensureThunderSound = useCallback(() => {
     if (thunderSoundRef.current) return thunderSoundRef.current;
-    if (!thunderUrlRef.current) {
-      thunderUrlRef.current = createThunderWavUrl();
-    }
-    thunderSoundRef.current = new Howl({
-      src: [thunderUrlRef.current],
-      format: ["wav"],
+
+    const primary = new Howl({
+      src: [thunderSoundFile],
+      format: ["mp3"],
       html5: false,
-      pool: 1,
-      volume: 0.22,
+      pool: 2,
+      volume: 0.2,
       preload: true,
       onloaderror: () => {
-        // Ignore audio load failures; visuals stay fully functional.
+        primary.unload();
+        thunderSoundRef.current = buildFallbackThunder();
       }
     });
+
+    thunderSoundRef.current = primary;
     return thunderSoundRef.current;
-  }, []);
+  }, [buildFallbackThunder]);
 
   const playThunder = useCallback(() => {
     if (!soundEnabled) return;
@@ -138,8 +154,8 @@ export default function App() {
   useEffect(() => {
     return () => {
       thunderSoundRef.current?.unload();
-      if (thunderUrlRef.current) {
-        URL.revokeObjectURL(thunderUrlRef.current);
+      if (fallbackThunderUrlRef.current) {
+        URL.revokeObjectURL(fallbackThunderUrlRef.current);
       }
     };
   }, []);
