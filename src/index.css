@@ -24,6 +24,8 @@ body,
 html {
   scroll-behavior: auto !important;
   background: #050507;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 body {
@@ -31,6 +33,8 @@ body {
   background: #050507;
   color: #f5f7ff;
   overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .font-display {
@@ -45,6 +49,8 @@ html.lenis body {
 
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .lenis.lenis-stopped {
@@ -58,4 +64,13 @@ html.lenis body {
 img {
   max-width: 100%;
   display: block;
+}
+
+/* Hide visible scrollbar UI globally without disabling scroll behavior. */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.lenis.lenis-smooth::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
