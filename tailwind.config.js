@@ -5,8 +5,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Sora"', "sans-serif"],
-        body: ['"Manrope"', "sans-serif"]
+        display: ['"Plus Jakarta Sans"', "sans-serif"],
+        body: ['"Inter"', "sans-serif"]
       },
       colors: {
         background: "#050507",

@@ -7,6 +7,7 @@ import About from "@/components/About";
 import WhatWeDo from "@/components/WhatWeDo";
 import Projects from "@/components/Projects";
 import Team from "@/components/Team";
+import ScrollPlane from "@/components/ScrollPlane";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,15 +83,34 @@ export default function App() {
   }, []);
 
   return (
-    <main className="bg-background text-foreground">
+    <>
+      <ScrollPlane />
+    <main className="bg-[#06070d] text-[#e8eaf2]">
       <Hero />
       <About />
       <WhatWeDo />
       <Projects />
       <Team />
-      <footer className="px-6 pb-10 pt-20 text-center text-sm text-white/40 md:px-14">
-        Silent Thunder Squad © 2026
+      <footer className="border-t border-white/5 px-6 py-12 md:px-20">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 flex-wrap">
+          <p className="font-display text-sm font-semibold tracking-wide text-white/60">
+            Silent Thunder Squad
+          </p>
+          <nav className="flex gap-6 text-xs text-white/30">
+            {["About", "Work", "Services", "Team"].map((link) => (
+              <a
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                className="hover:text-white/60 transition-colors duration-200"
+              >
+                {link}
+              </a>
+            ))}
+          </nav>
+          <p className="text-xs text-white/20">© 2026 — All rights reserved</p>
+        </div>
       </footer>
     </main>
+    </>
   );
 }
