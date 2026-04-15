@@ -122,13 +122,11 @@ export function ScrollParagraph({ text }: { text: string }) {
 
   useEffect(() => {
     if (!containerRef.current) return;
-    const wordEls = containerRef.current.querySelectorAll<HTMLSpanElement>('.scroll-word');
-    if (!wordEls.length) return;
+    const charEls = containerRef.current.querySelectorAll<HTMLSpanElement>('.scroll-char');
+    if (!charEls.length) return;
 
-    // Set initial state
-    gsap.set(wordEls, { opacity: 0.1, filter: 'blur(4px)' });
+    gsap.set(charEls, { opacity: 0.15, filter: 'blur(3px)' });
 
-    // Single scrubbed timeline on the container — each word gets its own staggered slot
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
@@ -138,11 +136,11 @@ export function ScrollParagraph({ text }: { text: string }) {
       },
     });
 
-    tl.to(wordEls, {
+    tl.to(charEls, {
       opacity: 1,
       filter: 'blur(0px)',
-      duration: 0.1,
-      stagger: 0.06,
+      duration: 0.05,
+      stagger: 0.015,
       ease: 'power2.out',
     });
 
@@ -154,13 +152,17 @@ export function ScrollParagraph({ text }: { text: string }) {
   return (
     <div ref={containerRef} className="max-w-4xl mx-auto px-6">
       <p className="text-2xl md:text-4xl lg:text-5xl font-heading font-light leading-relaxed text-foreground">
-        {words.map((word, i) => (
-          <span
-            key={i}
-            className="scroll-word inline-block mr-[0.3em]"
-            style={{ willChange: 'opacity, filter' }}
-          >
-            {word}
+        {words.map((word, wi) => (
+          <span key={wi} className="inline-block mr-[0.3em]">
+            {word.split('').map((char, ci) => (
+              <span
+                key={ci}
+                className="scroll-char inline-block"
+                style={{ willChange: 'opacity, filter' }}
+              >
+                {char}
+              </span>
+            ))}
           </span>
         ))}
       </p>
