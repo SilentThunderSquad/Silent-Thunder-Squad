@@ -6,20 +6,27 @@ import SplitType from 'split-type';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CTASection() {
-  const headingRef = useRef<HTMLHeadingElement>(null);
+  const headingWrapRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (headingRef.current) {
-      const split = new SplitType(headingRef.current, { types: 'chars' });
-      if (split.chars) {
-        gsap.set(split.chars, { opacity: 0, y: 60, scale: 0.8 });
-        gsap.to(split.chars, {
-          opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.04, ease: 'back.out(1.7)',
-          scrollTrigger: { trigger: headingRef.current, start: 'top 80%' },
-        });
+    const splits: SplitType[] = [];
+
+    if (headingWrapRef.current) {
+      const h2 = headingWrapRef.current.querySelector('h2');
+      if (h2) {
+        const split = new SplitType(h2, { types: 'chars' });
+        splits.push(split);
+        if (split.chars) {
+          gsap.set(split.chars, { opacity: 0, y: 60, scale: 0.8 });
+          gsap.to(split.chars, {
+            opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.04, ease: 'back.out(1.7)',
+            scrollTrigger: { trigger: h2, start: 'top 80%' },
+          });
+        }
       }
     }
+
     if (btnRef.current) {
       gsap.fromTo(btnRef.current,
         { opacity: 0, y: 30 },
@@ -29,6 +36,8 @@ export default function CTASection() {
         }
       );
     }
+
+    return () => { splits.forEach(s => s.revert()); };
   }, []);
 
   return (
@@ -37,12 +46,11 @@ export default function CTASection() {
         background: 'radial-gradient(ellipse at center, hsl(210 100% 55% / 0.05) 0%, transparent 70%)',
       }} />
       <div className="max-w-4xl mx-auto text-center relative z-10">
-        <h2
-          ref={headingRef}
-          className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-10 neon-text"
-        >
-          Join the Thunder
-        </h2>
+        <div ref={headingWrapRef}>
+          <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-10 neon-text">
+            Join the Thunder
+          </h2>
+        </div>
         <button
           ref={btnRef}
           className="px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide transition-all duration-300 animate-pulse-glow cursor-pointer"

@@ -17,40 +17,19 @@ const team = [
 
 function TeamCard({ name, role, desc, index }: { name: string; role: string; desc: string; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const nameRef = useRef<HTMLHeadingElement>(null);
-  const roleRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (!cardRef.current) return;
-    gsap.fromTo(cardRef.current,
-      { opacity: 0, y: 60 },
-      {
-        opacity: 1, y: 0, duration: 0.6, delay: index * 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: cardRef.current, start: 'top 90%' },
-      }
-    );
-    // Animate name chars
-    if (nameRef.current) {
-      const split = new SplitType(nameRef.current, { types: 'chars' });
-      if (split.chars) {
-        gsap.set(split.chars, { opacity: 0, y: 15, rotateY: 45 });
-        gsap.to(split.chars, {
-          opacity: 1, y: 0, rotateY: 0, duration: 0.4, stagger: 0.03, ease: 'power3.out',
-          scrollTrigger: { trigger: cardRef.current, start: 'top 85%' },
-        });
-      }
-    }
-    // Animate role words
-    if (roleRef.current) {
-      const split = new SplitType(roleRef.current, { types: 'words' });
-      if (split.words) {
-        gsap.set(split.words, { opacity: 0, x: -10 });
-        gsap.to(split.words, {
-          opacity: 1, x: 0, duration: 0.4, stagger: 0.05, delay: 0.2, ease: 'power2.out',
-          scrollTrigger: { trigger: cardRef.current, start: 'top 85%' },
-        });
-      }
-    }
+    const ctx = gsap.context(() => {
+      gsap.fromTo(cardRef.current,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0, duration: 0.6, delay: index * 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: cardRef.current, start: 'top 90%' },
+        }
+      );
+    });
+    return () => ctx.revert();
   }, [index]);
 
   return (
@@ -74,8 +53,8 @@ function TeamCard({ name, role, desc, index }: { name: string; role: string; des
         }}>
         {name.split(' ').map(n => n[0]).join('')}
       </div>
-      <h3 ref={nameRef} className="font-heading text-lg font-semibold text-foreground mb-1" style={{ perspective: '400px' }}>{name}</h3>
-      <p ref={roleRef} className="text-primary text-sm font-medium mb-3">{role}</p>
+      <h3 className="font-heading text-lg font-semibold text-foreground mb-1">{name}</h3>
+      <p className="text-primary text-sm font-medium mb-3">{role}</p>
       <p className="text-muted-foreground text-sm">{desc}</p>
       <div className="flex justify-center gap-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         {['𝕏', 'in', '◉'].map((icon, i) => (

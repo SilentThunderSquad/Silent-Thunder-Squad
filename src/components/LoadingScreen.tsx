@@ -1,18 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [hidden, setHidden] = useState(false);
+  const called = useRef(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((p) => {
         if (p >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            setVisible(false);
-            setTimeout(onComplete, 500);
-          }, 300);
+          if (!called.current) {
+            called.current = true;
+            setTimeout(() => {
+              setHidden(true);
+              setTimeout(onComplete, 100);
+            }, 500);
+          }
           return 100;
         }
         return p + Math.random() * 15 + 5;
@@ -21,7 +25,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
     return () => clearInterval(interval);
   }, [onComplete]);
 
-  if (!visible) return null;
+  if (hidden) return null;
 
   return (
     <div
@@ -29,6 +33,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
       style={{
         opacity: progress >= 100 ? 0 : 1,
         transition: 'opacity 0.5s ease-out',
+        pointerEvents: progress >= 100 ? 'none' : 'auto',
       }}
     >
       <h1 className="font-heading text-3xl md:text-5xl gradient-text mb-8 animate-flicker">
