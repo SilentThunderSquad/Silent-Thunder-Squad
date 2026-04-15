@@ -5,14 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * A horizontal line that grows as you scroll — visual storytelling divider.
+ * A thin horizontal line that grows as you scroll — visual storytelling divider.
  */
 export function StoryDivider() {
   const lineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!lineRef.current) return;
-    gsap.fromTo(lineRef.current,
+    const tween = gsap.fromTo(lineRef.current,
       { scaleX: 0 },
       {
         scaleX: 1,
@@ -25,15 +25,18 @@ export function StoryDivider() {
         },
       }
     );
+    return () => { tween.kill(); };
   }, []);
 
   return (
-    <div className="py-16 flex justify-center">
+    <div className="py-10 flex justify-center">
       <div
         ref={lineRef}
-        className="w-40 h-px origin-left"
+        className="origin-left"
         style={{
-          background: 'linear-gradient(90deg, transparent, hsl(210 100% 55% / 0.6), hsl(270 60% 55% / 0.6), transparent)',
+          width: '160px',
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent, hsl(210 100% 55% / 0.5), hsl(270 60% 55% / 0.5), transparent)',
           willChange: 'transform',
         }}
       />
@@ -69,11 +72,13 @@ export function ChapterMarker({ number, label }: { number: string; label: string
   }, []);
 
   return (
-    <div className="flex flex-col items-center py-16">
+    <div className="flex flex-col items-center py-10">
       <div
         ref={lineRef}
-        className="w-px h-20 origin-top mb-6"
+        className="origin-top mb-4"
         style={{
+          width: '1px',
+          height: '48px',
           background: 'linear-gradient(to bottom, transparent, hsl(210 100% 55% / 0.5))',
           willChange: 'transform',
         }}
@@ -113,8 +118,10 @@ export function AmbientDots() {
       {Array.from({ length: 15 }).map((_, i) => (
         <div
           key={i}
-          className="absolute w-1 h-1 rounded-full"
+          className="absolute rounded-full"
           style={{
+            width: '3px',
+            height: '3px',
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
             background: i % 2 === 0
