@@ -10,7 +10,7 @@ import ServicesSection from '../components/sections/ServicesSection';
 import ProjectsSection from '../components/sections/ProjectsSection';
 import TeamSection from '../components/sections/TeamSection';
 import CTASection from '../components/sections/CTASection';
-import { ScrollRevealText, ScrollMarquee, ParallaxTextLayers } from '../components/StorytellingTypography';
+import { ScrollRevealText, ScrollMarquee } from '../components/StorytellingTypography';
 import { StoryDivider, ChapterMarker } from '../components/StorytellingElements';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -65,12 +65,7 @@ export default function Index() {
 
             <StoryDivider />
 
-            {/* Parallax depth text */}
-            <ParallaxTextLayers layers={[
-              { text: 'INNOVATION', speed: 0.3, opacity: 0.04, size: '12rem' },
-              { text: 'CREATIVITY', speed: 0.6, opacity: 0.06, size: '8rem' },
-              { text: 'EXCELLENCE', speed: 1, opacity: 0.08, size: '5rem' },
-            ]} />
+            <ScrollMarquee words={['INNOVATION', 'CREATIVITY', 'EXCELLENCE', 'VISION']} direction="right" />
 
             <ChapterMarker number="02" label="Capabilities" />
 
@@ -100,10 +95,7 @@ export default function Index() {
 
             <StoryDivider />
 
-            <ParallaxTextLayers layers={[
-              { text: 'THUNDER', speed: 0.4, opacity: 0.04, size: '14rem' },
-              { text: 'SQUAD', speed: 0.8, opacity: 0.06, size: '10rem' },
-            ]} />
+            <ScrollMarquee words={['THUNDER', 'SQUAD', 'FUTURE', 'IMPACT']} direction="left" />
 
             <ChapterMarker number="05" label="The Future" />
 
