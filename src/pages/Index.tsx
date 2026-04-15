@@ -10,6 +10,8 @@ import ServicesSection from '../components/sections/ServicesSection';
 import ProjectsSection from '../components/sections/ProjectsSection';
 import TeamSection from '../components/sections/TeamSection';
 import CTASection from '../components/sections/CTASection';
+import { ScrollRevealText, ScrollMarquee, ParallaxTextLayers } from '../components/StorytellingTypography';
+import { StoryDivider, ChapterMarker } from '../components/StorytellingElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,11 +48,66 @@ export default function Index() {
         <>
           <CustomCursor />
           <main>
+            {/* Chapter 1: The Beginning */}
             <HeroSection />
+
+            {/* Transition: Marquee */}
+            <ScrollMarquee words={['INNOVATE', 'CREATE', 'BUILD', 'DISRUPT', 'TRANSFORM']} direction="left" />
+
+            {/* Chapter marker */}
+            <ChapterMarker number="01" label="Origins" />
+
+            {/* Big reveal text */}
+            <ScrollRevealText text="Our Story" subtitle="Every revolution begins with a spark" />
+
+            {/* Chapter 2: Who We Are */}
             <AboutSection />
+
+            <StoryDivider />
+
+            {/* Parallax depth text */}
+            <ParallaxTextLayers layers={[
+              { text: 'INNOVATION', speed: 0.3, opacity: 0.04, size: '12rem' },
+              { text: 'CREATIVITY', speed: 0.6, opacity: 0.06, size: '8rem' },
+              { text: 'EXCELLENCE', speed: 1, opacity: 0.08, size: '5rem' },
+            ]} />
+
+            <ChapterMarker number="02" label="Capabilities" />
+
+            <ScrollRevealText text="Our Craft" subtitle="Where technology meets artistry" />
+
+            {/* Chapter 3: What We Do */}
             <ServicesSection />
+
+            <StoryDivider />
+            <ScrollMarquee words={['DESIGN', 'DEVELOP', 'DEPLOY', 'ITERATE', 'SCALE']} direction="right" />
+
+            <ChapterMarker number="03" label="Portfolio" />
+
+            <ScrollRevealText text="Our Work" subtitle="Projects that define the future" />
+
+            {/* Chapter 4: Projects */}
             <ProjectsSection />
+
+            <StoryDivider />
+
+            <ChapterMarker number="04" label="People" />
+
+            <ScrollRevealText text="The Team" subtitle="The minds behind the thunder" />
+
+            {/* Chapter 5: Team */}
             <TeamSection />
+
+            <StoryDivider />
+
+            <ParallaxTextLayers layers={[
+              { text: 'THUNDER', speed: 0.4, opacity: 0.04, size: '14rem' },
+              { text: 'SQUAD', speed: 0.8, opacity: 0.06, size: '10rem' },
+            ]} />
+
+            <ChapterMarker number="05" label="The Future" />
+
+            {/* Chapter 6: CTA */}
             <CTASection />
           </main>
         </>

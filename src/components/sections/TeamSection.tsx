@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
+import { RotatingCharsText } from '../StorytellingTypography';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,8 @@ const team = [
 
 function TeamCard({ name, role, desc, index }: { name: string; role: string; desc: string; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const roleRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (!cardRef.current) return;
@@ -26,6 +29,28 @@ function TeamCard({ name, role, desc, index }: { name: string; role: string; des
         scrollTrigger: { trigger: cardRef.current, start: 'top 90%' },
       }
     );
+    // Animate name chars
+    if (nameRef.current) {
+      const split = new SplitType(nameRef.current, { types: 'chars' });
+      if (split.chars) {
+        gsap.set(split.chars, { opacity: 0, y: 15, rotateY: 45 });
+        gsap.to(split.chars, {
+          opacity: 1, y: 0, rotateY: 0, duration: 0.4, stagger: 0.03, ease: 'power3.out',
+          scrollTrigger: { trigger: cardRef.current, start: 'top 85%' },
+        });
+      }
+    }
+    // Animate role words
+    if (roleRef.current) {
+      const split = new SplitType(roleRef.current, { types: 'words' });
+      if (split.words) {
+        gsap.set(split.words, { opacity: 0, x: -10 });
+        gsap.to(split.words, {
+          opacity: 1, x: 0, duration: 0.4, stagger: 0.05, delay: 0.2, ease: 'power2.out',
+          scrollTrigger: { trigger: cardRef.current, start: 'top 85%' },
+        });
+      }
+    }
   }, [index]);
 
   return (
@@ -49,8 +74,8 @@ function TeamCard({ name, role, desc, index }: { name: string; role: string; des
         }}>
         {name.split(' ').map(n => n[0]).join('')}
       </div>
-      <h3 className="font-heading text-lg font-semibold text-foreground mb-1">{name}</h3>
-      <p className="text-primary text-sm font-medium mb-3">{role}</p>
+      <h3 ref={nameRef} className="font-heading text-lg font-semibold text-foreground mb-1" style={{ perspective: '400px' }}>{name}</h3>
+      <p ref={roleRef} className="text-primary text-sm font-medium mb-3">{role}</p>
       <p className="text-muted-foreground text-sm">{desc}</p>
       <div className="flex justify-center gap-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         {['𝕏', 'in', '◉'].map((icon, i) => (
@@ -64,27 +89,12 @@ function TeamCard({ name, role, desc, index }: { name: string; role: string; des
 }
 
 export default function TeamSection() {
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (headingRef.current) {
-      const split = new SplitType(headingRef.current, { types: 'chars' });
-      if (split.chars) {
-        gsap.set(split.chars, { opacity: 0, y: 40 });
-        gsap.to(split.chars, {
-          opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: 'power3.out',
-          scrollTrigger: { trigger: headingRef.current, start: 'top 80%' },
-        });
-      }
-    }
-  }, []);
-
   return (
     <section className="py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 ref={headingRef} className="font-heading text-4xl md:text-5xl font-bold text-center mb-16 gradient-text">
-          The Squad
-        </h2>
+        <div className="mb-16">
+          <RotatingCharsText text="The Squad" />
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {team.map((m, i) => (
             <TeamCard key={m.name} {...m} index={i} />

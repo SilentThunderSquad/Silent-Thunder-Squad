@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
+import { RotatingCharsText } from '../StorytellingTypography';
+import { AmbientDots } from '../StorytellingElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +18,7 @@ const services = [
 
 function ServiceCard({ title, desc, icon, index }: { title: string; desc: string; icon: string; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     if (!cardRef.current) return;
@@ -26,6 +29,17 @@ function ServiceCard({ title, desc, icon, index }: { title: string; desc: string
         scrollTrigger: { trigger: cardRef.current, start: 'top 90%' },
       }
     );
+    // Animate title chars on scroll
+    if (titleRef.current) {
+      const split = new SplitType(titleRef.current, { types: 'chars' });
+      if (split.chars) {
+        gsap.set(split.chars, { opacity: 0, y: 10 });
+        gsap.to(split.chars, {
+          opacity: 1, y: 0, duration: 0.3, stagger: 0.02, ease: 'power2.out',
+          scrollTrigger: { trigger: cardRef.current, start: 'top 85%' },
+        });
+      }
+    }
   }, [index]);
 
   return (
@@ -44,7 +58,7 @@ function ServiceCard({ title, desc, icon, index }: { title: string; desc: string
       }}
     >
       <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="font-heading text-xl font-semibold mb-3 text-foreground group-hover:neon-text transition-all">
+      <h3 ref={titleRef} className="font-heading text-xl font-semibold mb-3 text-foreground group-hover:neon-text transition-all">
         {title}
       </h3>
       <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
@@ -53,27 +67,13 @@ function ServiceCard({ title, desc, icon, index }: { title: string; desc: string
 }
 
 export default function ServicesSection() {
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (headingRef.current) {
-      const split = new SplitType(headingRef.current, { types: 'chars' });
-      if (split.chars) {
-        gsap.set(split.chars, { opacity: 0, y: 40 });
-        gsap.to(split.chars, {
-          opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: 'power3.out',
-          scrollTrigger: { trigger: headingRef.current, start: 'top 80%' },
-        });
-      }
-    }
-  }, []);
-
   return (
-    <section className="py-32 px-6">
+    <section className="py-32 px-6 relative">
+      <AmbientDots />
       <div className="max-w-6xl mx-auto">
-        <h2 ref={headingRef} className="font-heading text-4xl md:text-5xl font-bold text-center mb-16 gradient-text">
-          What We Do
-        </h2>
+        <div className="mb-16">
+          <RotatingCharsText text="What We Do" />
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => (
             <ServiceCard key={s.title} {...s} index={i} />
