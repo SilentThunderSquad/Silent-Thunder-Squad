@@ -94,8 +94,13 @@ export function ScrollMarquee({ words, direction = 'left' }: { words: string[]; 
             key={i}
             className="font-heading text-6xl md:text-8xl lg:text-[10rem] font-bold leading-none"
             style={{
-              WebkitTextStroke: '1px hsl(210 100% 55% / 0.3)',
+              WebkitTextStroke: '1.5px hsl(210 100% 55% / 0.5)',
               WebkitTextFillColor: 'transparent',
+              background: i % 3 === 1
+                ? 'linear-gradient(135deg, hsl(210 100% 55% / 0.08), hsl(270 60% 55% / 0.08))'
+                : 'none',
+              WebkitBackgroundClip: i % 3 === 1 ? 'text' : undefined,
+              textShadow: '0 0 30px hsl(210 100% 55% / 0.15), 0 0 60px hsl(270 60% 55% / 0.08)',
             }}
           >
             {word}
