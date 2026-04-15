@@ -7,12 +7,12 @@ import { RotatingCharsText } from '../StorytellingTypography';
 gsap.registerPlugin(ScrollTrigger);
 
 const team = [
-  { name: 'Alex Chen', role: 'Lead Developer', desc: 'Full-stack architect with a passion for scalable systems.' },
-  { name: 'Maya Patel', role: 'UX Designer', desc: 'Crafting human-centered experiences that delight and inspire.' },
-  { name: 'Jordan Lee', role: 'AI Engineer', desc: 'Building intelligent systems that understand the world.' },
-  { name: 'Sam Torres', role: 'DevOps Lead', desc: 'Orchestrating cloud infrastructure for maximum resilience.' },
-  { name: 'Riley Kim', role: 'Mobile Developer', desc: 'Creating seamless cross-platform mobile experiences.' },
-  { name: 'Casey Wright', role: 'Security Analyst', desc: 'Defending digital frontiers with vigilance and expertise.' },
+  { name: 'Vivek Kumar Verma', role: 'Team Leader', desc: 'Full-stack architect with a passion for scalable systems.' },
+  { name: 'Om Singh', role: 'UX Designer', desc: 'Crafting human-centered experiences that delight and inspire.' },
+  { name: 'Anuj Vashishth', role: 'AI Engineer', desc: 'Building intelligent systems that understand the world.' },
+  { name: 'Nav Sharma', role: 'DevOps Lead', desc: 'Orchestrating cloud infrastructure for maximum resilience.' },
+  { name: 'Rajit Shikharwar', role: 'Mobile Developer', desc: 'Creating seamless cross-platform mobile experiences.' },
+  { name: 'Priyanshu Varshney', role: 'Security Analyst', desc: 'Defending digital frontiers with vigilance and expertise.' },
 ];
 
 function TeamCard({ name, role, desc, index }: { name: string; role: string; desc: string; index: number }) {
