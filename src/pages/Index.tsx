@@ -48,58 +48,44 @@ export default function Index() {
         <>
           <CustomCursor />
           <main>
-            {/* Chapter 1: The Beginning */}
+            {/* Chapter 1: Hero */}
             <HeroSection />
 
-            {/* Transition: Marquee */}
             <ScrollMarquee words={['INNOVATE', 'CREATE', 'BUILD', 'DISRUPT', 'TRANSFORM']} direction="left" />
 
-            {/* Chapter marker */}
             <ChapterMarker number="01" label="Origins" />
-
-            {/* Big reveal text */}
             <ScrollRevealText text="Our Story" subtitle="Every revolution begins with a spark" />
 
-            {/* Chapter 2: Who We Are */}
+            {/* Chapter 2: About */}
             <AboutSection />
 
             <StoryDivider />
-
-            <ScrollMarquee words={['INNOVATION', 'CREATIVITY', 'EXCELLENCE', 'VISION']} direction="right" />
-
             <ChapterMarker number="02" label="Capabilities" />
-
             <ScrollRevealText text="Our Craft" subtitle="Where technology meets artistry" />
 
-            {/* Chapter 3: What We Do */}
+            {/* Chapter 3: Services */}
             <ServicesSection />
 
             <StoryDivider />
             <ScrollMarquee words={['DESIGN', 'DEVELOP', 'DEPLOY', 'ITERATE', 'SCALE']} direction="right" />
 
             <ChapterMarker number="03" label="Portfolio" />
-
             <ScrollRevealText text="Our Work" subtitle="Projects that define the future" />
 
             {/* Chapter 4: Projects */}
             <ProjectsSection />
 
             <StoryDivider />
-
             <ChapterMarker number="04" label="People" />
-
             <ScrollRevealText text="The Team" subtitle="The minds behind the thunder" />
 
             {/* Chapter 5: Team */}
             <TeamSection />
 
             <StoryDivider />
-
-            <ScrollMarquee words={['THUNDER', 'SQUAD', 'FUTURE', 'IMPACT']} direction="left" />
-
             <ChapterMarker number="05" label="The Future" />
 
-            {/* Chapter 6: CTA */}
+            {/* CTA */}
             <CTASection />
           </main>
         </>

@@ -39,7 +39,7 @@ export function ScrollRevealText({ text, subtitle }: { text: string; subtitle?: 
   }, []);
 
   return (
-    <div ref={containerRef} className="h-[80vh] flex items-center justify-center relative overflow-hidden">
+    <div ref={containerRef} className="h-[50vh] flex items-center justify-center relative overflow-hidden">
       <div className="text-center px-6">
         <h2
           ref={textRef}
