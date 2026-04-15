@@ -18,28 +18,19 @@ const services = [
 
 function ServiceCard({ title, desc, icon, index }: { title: string; desc: string; icon: string; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     if (!cardRef.current) return;
-    gsap.fromTo(cardRef.current,
-      { opacity: 0, y: 60, scale: 0.95 },
-      {
-        opacity: 1, y: 0, scale: 1, duration: 0.6, delay: index * 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: cardRef.current, start: 'top 90%' },
-      }
-    );
-    // Animate title chars on scroll
-    if (titleRef.current) {
-      const split = new SplitType(titleRef.current, { types: 'chars' });
-      if (split.chars) {
-        gsap.set(split.chars, { opacity: 0, y: 10 });
-        gsap.to(split.chars, {
-          opacity: 1, y: 0, duration: 0.3, stagger: 0.02, ease: 'power2.out',
-          scrollTrigger: { trigger: cardRef.current, start: 'top 85%' },
-        });
-      }
-    }
+    const ctx = gsap.context(() => {
+      gsap.fromTo(cardRef.current,
+        { opacity: 0, y: 60, scale: 0.95 },
+        {
+          opacity: 1, y: 0, scale: 1, duration: 0.6, delay: index * 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: cardRef.current, start: 'top 90%' },
+        }
+      );
+    });
+    return () => ctx.revert();
   }, [index]);
 
   return (
@@ -58,7 +49,7 @@ function ServiceCard({ title, desc, icon, index }: { title: string; desc: string
       }}
     >
       <div className="text-4xl mb-4">{icon}</div>
-      <h3 ref={titleRef} className="font-heading text-xl font-semibold mb-3 text-foreground group-hover:neon-text transition-all">
+      <h3 className="font-heading text-xl font-semibold mb-3 text-foreground group-hover:neon-text transition-all">
         {title}
       </h3>
       <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>

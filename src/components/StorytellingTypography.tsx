@@ -5,8 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * A big kinetic text that scales up/fades as you scroll through it.
- * Creates dramatic "chapter title" moments between sections.
+ * Big kinetic text that scales up/fades as you scroll through it.
  */
 export function ScrollRevealText({ text, subtitle }: { text: string; subtitle?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -71,7 +70,7 @@ export function ScrollMarquee({ words, direction = 'left' }: { words: string[]; 
     const xVal = direction === 'left' ? '-30%' : '30%';
     const fromVal = direction === 'left' ? '10%' : '-10%';
 
-    gsap.fromTo(innerRef.current,
+    const tween = gsap.fromTo(innerRef.current,
       { x: fromVal },
       {
         x: xVal,
@@ -84,6 +83,7 @@ export function ScrollMarquee({ words, direction = 'left' }: { words: string[]; 
         },
       }
     );
+    return () => { tween.kill(); };
   }, [direction]);
 
   return (
@@ -111,14 +111,12 @@ export function ScrollMarquee({ words, direction = 'left' }: { words: string[]; 
  */
 export function ScrollParagraph({ text }: { text: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const wordsRef = useRef<(HTMLSpanElement | null)[]>([]);
-  const words = text.split(' ');
 
   useEffect(() => {
     if (!containerRef.current) return;
+    const wordEls = containerRef.current.querySelectorAll<HTMLSpanElement>('.scroll-word');
 
-    wordsRef.current.forEach((word, i) => {
-      if (!word) return;
+    const tweens = Array.from(wordEls).map((word) =>
       gsap.fromTo(word,
         { opacity: 0.1, filter: 'blur(4px)' },
         {
@@ -133,9 +131,13 @@ export function ScrollParagraph({ text }: { text: string }) {
             scrub: 1,
           },
         }
-      );
-    });
+      )
+    );
+
+    return () => { tweens.forEach(t => t.kill()); };
   }, []);
+
+  const words = text.split(' ');
 
   return (
     <div ref={containerRef} className="max-w-4xl mx-auto px-6">
@@ -143,8 +145,7 @@ export function ScrollParagraph({ text }: { text: string }) {
         {words.map((word, i) => (
           <span
             key={i}
-            ref={(el) => { wordsRef.current[i] = el; }}
-            className="inline-block mr-[0.3em]"
+            className="scroll-word inline-block mr-[0.3em]"
             style={{ willChange: 'opacity, filter' }}
           >
             {word}
@@ -166,7 +167,7 @@ export function ScrollCounter({ value, label, suffix = '' }: { value: number; la
     if (!numRef.current || !containerRef.current) return;
 
     const obj = { val: 0 };
-    gsap.to(obj, {
+    const tween = gsap.to(obj, {
       val: value,
       duration: 2,
       ease: 'power2.out',
@@ -179,6 +180,8 @@ export function ScrollCounter({ value, label, suffix = '' }: { value: number; la
         if (numRef.current) numRef.current.textContent = Math.round(obj.val) + suffix;
       },
     });
+
+    return () => { tween.kill(); };
   }, [value, suffix]);
 
   return (
@@ -194,13 +197,12 @@ export function ScrollCounter({ value, label, suffix = '' }: { value: number; la
  */
 export function ParallaxTextLayers({ layers }: { layers: { text: string; speed: number; opacity: number; size: string }[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const layerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (!containerRef.current) return;
+    const layerEls = containerRef.current.querySelectorAll<HTMLDivElement>('.parallax-layer');
 
-    layerRefs.current.forEach((layer, i) => {
-      if (!layer) return;
+    const tweens = Array.from(layerEls).map((layer, i) =>
       gsap.fromTo(layer,
         { y: layers[i].speed * 100 },
         {
@@ -213,8 +215,10 @@ export function ParallaxTextLayers({ layers }: { layers: { text: string; speed: 
             scrub: 1,
           },
         }
-      );
-    });
+      )
+    );
+
+    return () => { tweens.forEach(t => t.kill()); };
   }, [layers]);
 
   return (
@@ -222,8 +226,7 @@ export function ParallaxTextLayers({ layers }: { layers: { text: string; speed: 
       {layers.map((layer, i) => (
         <div
           key={i}
-          ref={(el) => { layerRefs.current[i] = el; }}
-          className="absolute inset-0 flex items-center justify-center"
+          className="parallax-layer absolute inset-0 flex items-center justify-center"
           style={{ opacity: layer.opacity, willChange: 'transform' }}
         >
           <span
@@ -243,13 +246,12 @@ export function ParallaxTextLayers({ layers }: { layers: { text: string; speed: 
  */
 export function RotatingCharsText({ text }: { text: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     if (!containerRef.current) return;
+    const charEls = containerRef.current.querySelectorAll<HTMLSpanElement>('.rotating-char');
 
-    charRefs.current.forEach((char, i) => {
-      if (!char) return;
+    const tweens = Array.from(charEls).map((char, i) =>
       gsap.fromTo(char,
         { opacity: 0, rotateY: 90, y: 40 },
         {
@@ -265,9 +267,11 @@ export function RotatingCharsText({ text }: { text: string }) {
             toggleActions: 'play none none none',
           },
         }
-      );
-    });
-  }, []);
+      )
+    );
+
+    return () => { tweens.forEach(t => t.kill()); };
+  }, [text]);
 
   const chars = text.split('');
 
@@ -277,11 +281,9 @@ export function RotatingCharsText({ text }: { text: string }) {
         {chars.map((char, i) => (
           <span
             key={i}
-            ref={(el) => { charRefs.current[i] = el; }}
-            className="inline-block"
+            className="rotating-char inline-block"
             style={{
               willChange: 'transform, opacity',
-              color: char === ' ' ? 'transparent' : undefined,
               width: char === ' ' ? '0.3em' : undefined,
             }}
           >

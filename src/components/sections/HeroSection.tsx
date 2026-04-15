@@ -4,25 +4,26 @@ import SplitType from 'split-type';
 import ParticleField from '../ParticleField';
 
 export default function HeroSection() {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 1.5 });
+    const splits: SplitType[] = [];
 
     if (logoRef.current) {
       tl.fromTo(logoRef.current, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' });
     }
 
-    // Tagline intro
     if (taglineRef.current) {
       tl.fromTo(taglineRef.current, { opacity: 0, y: -10 }, { opacity: 0.5, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4');
     }
 
     if (titleRef.current) {
       const split = new SplitType(titleRef.current, { types: 'chars' });
+      splits.push(split);
       if (split.chars) {
         gsap.set(split.chars, { opacity: 0, y: 80, rotateX: -90, scale: 0.5 });
         tl.to(split.chars, {
@@ -34,6 +35,7 @@ export default function HeroSection() {
 
     if (subtitleRef.current) {
       const split = new SplitType(subtitleRef.current, { types: 'words' });
+      splits.push(split);
       if (split.words) {
         gsap.set(split.words, { opacity: 0, y: 20, filter: 'blur(8px)' });
         tl.to(split.words, {
@@ -42,6 +44,11 @@ export default function HeroSection() {
         }, '-=0.3');
       }
     }
+
+    return () => {
+      tl.kill();
+      splits.forEach(s => s.revert());
+    };
   }, []);
 
   return (
@@ -52,7 +59,6 @@ export default function HeroSection() {
       }} />
 
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        {/* Logo placeholder */}
         <div ref={logoRef} className="mb-8 flex justify-center opacity-0">
           <div className="w-20 h-20 rounded-2xl glass neon-glow flex items-center justify-center">
             <span className="text-muted-foreground text-xs uppercase tracking-widest">Logo</span>
@@ -66,22 +72,18 @@ export default function HeroSection() {
           Est. 2024 — Innovation Collective
         </p>
 
-        <h1
-          ref={titleRef}
-          className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none mb-8 neon-text"
-          style={{ perspective: '800px' }}
-        >
-          Silent Thunder Squad
-        </h1>
+        <div ref={titleRef} style={{ perspective: '800px' }}>
+          <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none mb-8 neon-text">
+            Silent Thunder Squad
+          </h1>
+        </div>
 
-        <p
-          ref={subtitleRef}
-          className="text-lg md:text-xl lg:text-2xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed"
-        >
-          Building Real-World Solutions with Innovation
-        </p>
+        <div ref={subtitleRef}>
+          <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+            Building Real-World Solutions with Innovation
+          </p>
+        </div>
 
-        {/* Scroll indicator */}
         <div className="mt-16 flex flex-col items-center gap-2 animate-float">
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground opacity-50">Scroll to explore</span>
           <div className="w-px h-12" style={{

@@ -14,19 +14,25 @@ const projects = [
 ];
 
 export default function ProjectsSection() {
-  const headingRef = useRef<HTMLHeadingElement>(null);
+  const headingWrapRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (headingRef.current) {
-      const split = new SplitType(headingRef.current, { types: 'chars' });
-      if (split.chars) {
-        gsap.set(split.chars, { opacity: 0, y: 40 });
-        gsap.to(split.chars, {
-          opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: 'power3.out',
-          scrollTrigger: { trigger: headingRef.current, start: 'top 80%' },
-        });
+    const splits: SplitType[] = [];
+
+    if (headingWrapRef.current) {
+      const h2 = headingWrapRef.current.querySelector('h2');
+      if (h2) {
+        const split = new SplitType(h2, { types: 'chars' });
+        splits.push(split);
+        if (split.chars) {
+          gsap.set(split.chars, { opacity: 0, y: 40 });
+          gsap.to(split.chars, {
+            opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: 'power3.out',
+            scrollTrigger: { trigger: h2, start: 'top 80%' },
+          });
+        }
       }
     }
 
@@ -45,15 +51,19 @@ export default function ProjectsSection() {
         },
       });
     }
+
+    return () => { splits.forEach(s => s.revert()); };
   }, []);
 
   return (
     <section ref={containerRef} className="relative overflow-hidden">
       <div ref={scrollRef} className="flex items-center min-h-screen gap-8 px-6 md:px-16" style={{ width: 'max-content' }}>
         <div className="w-[40vw] md:w-[30vw] shrink-0">
-          <h2 ref={headingRef} className="font-heading text-4xl md:text-5xl font-bold gradient-text mb-4">
-            Project Showcase
-          </h2>
+          <div ref={headingWrapRef}>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold gradient-text mb-4">
+              Project Showcase
+            </h2>
+          </div>
           <p className="text-muted-foreground text-lg">Scroll to explore our work →</p>
         </div>
         {projects.map((p) => (
