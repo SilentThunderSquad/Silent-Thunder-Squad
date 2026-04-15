@@ -123,26 +123,30 @@ export function ScrollParagraph({ text }: { text: string }) {
   useEffect(() => {
     if (!containerRef.current) return;
     const wordEls = containerRef.current.querySelectorAll<HTMLSpanElement>('.scroll-word');
+    if (!wordEls.length) return;
 
-    const tweens = Array.from(wordEls).map((word) =>
-      gsap.fromTo(word,
-        { opacity: 0.1, filter: 'blur(4px)' },
-        {
-          opacity: 1,
-          filter: 'blur(0px)',
-          duration: 0.3,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: word,
-            start: 'top 85%',
-            end: 'top 60%',
-            scrub: 1,
-          },
-        }
-      )
-    );
+    // Set initial state
+    gsap.set(wordEls, { opacity: 0.1, filter: 'blur(4px)' });
 
-    return () => { tweens.forEach(t => t.kill()); };
+    // Single scrubbed timeline on the container — each word gets its own staggered slot
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: 'top 80%',
+        end: 'bottom 40%',
+        scrub: 0.5,
+      },
+    });
+
+    tl.to(wordEls, {
+      opacity: 1,
+      filter: 'blur(0px)',
+      duration: 0.1,
+      stagger: 0.06,
+      ease: 'power2.out',
+    });
+
+    return () => { tl.kill(); };
   }, []);
 
   const words = text.split(' ');
