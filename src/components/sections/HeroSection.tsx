@@ -66,8 +66,7 @@ export default function HeroSection() {
 
         <div ref={titleRef} style={{ perspective: '800px' }}>
           <h1
-            className="font-heading font-bold tracking-tight leading-[1.1] mb-8 neon-text"
-            style={{ fontSize: 'clamp(1.75rem, 8vw, 10rem)' }}
+            className="font-heading font-bold tracking-tight leading-[1.1] mb-8 neon-text text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-[8rem]"
           >
             Silent Thunder Squad
           </h1>
