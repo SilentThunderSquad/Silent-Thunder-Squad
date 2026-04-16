@@ -6,16 +6,13 @@ import ParticleField from '../ParticleField';
 export default function HeroSection() {
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
+  
   const taglineRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 1.5 });
     const splits: SplitType[] = [];
 
-    if (logoRef.current) {
-      tl.fromTo(logoRef.current, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' });
-    }
 
     if (taglineRef.current) {
       tl.fromTo(taglineRef.current, { opacity: 0, y: -10 }, { opacity: 0.5, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4');
