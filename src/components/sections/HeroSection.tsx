@@ -55,7 +55,7 @@ export default function HeroSection() {
         background: 'radial-gradient(ellipse at center, transparent 0%, hsl(230 25% 5% / 0.4) 50%, hsl(230 25% 5% / 0.9) 100%)',
       }} />
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-6xl mx-auto">
 
         <p
           ref={taglineRef}
