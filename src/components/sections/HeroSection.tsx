@@ -55,7 +55,7 @@ export default function HeroSection() {
         background: 'radial-gradient(ellipse at center, transparent 0%, hsl(230 25% 5% / 0.4) 50%, hsl(230 25% 5% / 0.9) 100%)',
       }} />
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-6xl mx-auto">
 
         <p
           ref={taglineRef}
@@ -65,7 +65,9 @@ export default function HeroSection() {
         </p>
 
         <div ref={titleRef} style={{ perspective: '800px' }}>
-          <h1 className="font-heading text-6xl md:text-8xl lg:text-[10rem] font-bold tracking-tight leading-none mb-8 neon-text">
+          <h1
+            className="font-heading font-bold tracking-tight leading-[1.1] mb-8 neon-text text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
+          >
             Silent Thunder Squad
           </h1>
         </div>
