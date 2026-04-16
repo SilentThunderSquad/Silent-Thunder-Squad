@@ -59,11 +59,6 @@ export default function HeroSection() {
       }} />
 
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        <div ref={logoRef} className="mb-8 flex justify-center opacity-0">
-          <div className="w-20 h-20 rounded-2xl glass neon-glow flex items-center justify-center">
-            <span className="text-muted-foreground text-xs uppercase tracking-widest">Logo</span>
-          </div>
-        </div>
 
         <p
           ref={taglineRef}
