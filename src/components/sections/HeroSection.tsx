@@ -6,16 +6,13 @@ import ParticleField from '../ParticleField';
 export default function HeroSection() {
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
+  
   const taglineRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 1.5 });
     const splits: SplitType[] = [];
 
-    if (logoRef.current) {
-      tl.fromTo(logoRef.current, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' });
-    }
 
     if (taglineRef.current) {
       tl.fromTo(taglineRef.current, { opacity: 0, y: -10 }, { opacity: 0.5, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4');
@@ -59,11 +56,6 @@ export default function HeroSection() {
       }} />
 
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        <div ref={logoRef} className="mb-8 flex justify-center opacity-0">
-          <div className="w-20 h-20 rounded-2xl glass neon-glow flex items-center justify-center">
-            <span className="text-muted-foreground text-xs uppercase tracking-widest">Logo</span>
-          </div>
-        </div>
 
         <p
           ref={taglineRef}
