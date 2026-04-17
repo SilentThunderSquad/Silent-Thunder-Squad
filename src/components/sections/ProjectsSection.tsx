@@ -2,15 +2,16 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
+import { ExternalLink, Github } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { title: 'NeuralVault', desc: 'AI-powered knowledge management platform', tag: 'Machine Learning', color: '#3b82f6' },
-  { title: 'CipherLink', desc: 'End-to-end encrypted communication network', tag: 'Security', color: '#8b5cf6' },
-  { title: 'QuantumDash', desc: 'Real-time analytics dashboard for enterprises', tag: 'Analytics', color: '#06b6d4' },
-  { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981' },
-  { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b' },
+  { title: 'NeuralVault', desc: 'AI-powered knowledge management platform', tag: 'Machine Learning', color: '#3b82f6', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'CipherLink', desc: 'End-to-end encrypted communication network', tag: 'Security', color: '#8b5cf6', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'QuantumDash', desc: 'Real-time analytics dashboard for enterprises', tag: 'Analytics', color: '#06b6d4', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b', demo: 'https://example.com', github: 'https://github.com' },
 ];
 
 export default function ProjectsSection() {
