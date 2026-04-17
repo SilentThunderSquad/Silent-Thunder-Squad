@@ -22,10 +22,26 @@ export default function HeroSection() {
       const split = new SplitType(titleRef.current, { types: 'chars' });
       splits.push(split);
       if (split.chars) {
-        gsap.set(split.chars, { opacity: 0, y: 80, rotateX: -90, scale: 0.5 });
-        tl.to(split.chars, {
-          opacity: 1, y: 0, rotateX: 0, scale: 1,
-          duration: 0.8, stagger: 0.04, ease: 'back.out(1.4)',
+        // Wrap each char so we can clip with overflow-hidden and reveal from a single baseline
+        split.chars.forEach((char) => {
+          const el = char as HTMLElement;
+          el.style.display = 'inline-block';
+          el.style.overflow = 'hidden';
+          el.style.verticalAlign = 'bottom';
+          const inner = document.createElement('span');
+          inner.style.display = 'inline-block';
+          inner.style.willChange = 'transform';
+          inner.textContent = el.textContent;
+          el.textContent = '';
+          el.appendChild(inner);
+        });
+        const inners = titleRef.current.querySelectorAll<HTMLElement>('.char > span');
+        gsap.set(inners, { yPercent: 110 });
+        tl.to(inners, {
+          yPercent: 0,
+          duration: 0.9,
+          stagger: 0.05,
+          ease: 'power4.out',
         }, '-=0.3');
       }
     }
