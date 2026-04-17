@@ -150,8 +150,8 @@ export function ScrollParagraph({ text }: { text: string }) {
   const words = text.split(' ');
 
   return (
-    <div ref={containerRef} className="max-w-4xl mx-auto px-6">
-      <p className="text-2xl md:text-4xl lg:text-5xl font-heading font-light leading-relaxed text-foreground">
+    <div ref={containerRef} className="w-full max-w-4xl mx-auto px-4 sm:px-6">
+      <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-heading font-light leading-relaxed text-foreground text-center">
         {words.map((word, wi) => (
           <span key={wi} className="inline-block mr-[0.3em]">
             {word.split('').map((char, ci) => (
