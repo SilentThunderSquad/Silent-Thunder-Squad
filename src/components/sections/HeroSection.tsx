@@ -55,18 +55,18 @@ export default function HeroSection() {
         background: 'radial-gradient(ellipse at center, transparent 0%, hsl(230 25% 5% / 0.4) 50%, hsl(230 25% 5% / 0.9) 100%)',
       }} />
 
-      <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-6xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-6 w-full mx-auto flex flex-col items-center justify-center">
 
         <p
           ref={taglineRef}
-          className="text-xs md:text-sm uppercase tracking-[0.4em] text-primary mb-6 font-light"
+          className="text-xs md:text-sm uppercase tracking-[0.4em] text-primary mb-6 font-light text-center"
         >
           Est. 2024 — Innovation Collective
         </p>
 
-        <div ref={titleRef} style={{ perspective: '800px' }}>
+        <div ref={titleRef} style={{ perspective: '800px' }} className="w-full flex justify-center">
           <h1
-            className="font-heading font-bold tracking-tight leading-[1.1] mb-8 neon-text text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl whitespace-nowrap"
+            className="font-heading font-bold tracking-tight leading-[1.1] mb-8 neon-text text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl whitespace-nowrap text-center mx-auto"
           >
             Silent Thunder Squad
           </h1>
