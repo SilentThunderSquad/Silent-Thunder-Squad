@@ -71,8 +71,8 @@ export default function AboutSection() {
           <ScrollCounter value={99} label="Client Satisfaction" suffix="%" />
         </div>
 
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="h-80 md:h-96 order-2 md:order-1">
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="h-72 sm:h-80 md:h-96 order-2 md:order-1">
             <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]}>
               <ambientLight intensity={0.4} />
               <pointLight position={[3, 3, 3]} intensity={0.6} color="#3b82ff" />
@@ -80,7 +80,7 @@ export default function AboutSection() {
               <RotatingTorus />
             </Canvas>
           </div>
-          <div className="order-1 md:order-2">
+          <div className="order-1 md:order-2 w-full">
             <ScrollParagraph
               text="Silent Thunder Squad operates at the intersection of cutting-edge technology and human-centered design, delivering experiences that resonate and endure."
             />
