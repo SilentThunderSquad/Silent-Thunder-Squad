@@ -2,15 +2,16 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
+import { ExternalLink, Github } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { title: 'NeuralVault', desc: 'AI-powered knowledge management platform', tag: 'Machine Learning', color: '#3b82f6' },
-  { title: 'CipherLink', desc: 'End-to-end encrypted communication network', tag: 'Security', color: '#8b5cf6' },
-  { title: 'QuantumDash', desc: 'Real-time analytics dashboard for enterprises', tag: 'Analytics', color: '#06b6d4' },
-  { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981' },
-  { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b' },
+  { title: 'NeuralVault', desc: 'AI-powered knowledge management platform', tag: 'Machine Learning', color: '#3b82f6', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'CipherLink', desc: 'End-to-end encrypted communication network', tag: 'Security', color: '#8b5cf6', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'QuantumDash', desc: 'Real-time analytics dashboard for enterprises', tag: 'Analytics', color: '#06b6d4', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b', demo: 'https://example.com', github: 'https://github.com' },
 ];
 
 export default function ProjectsSection() {
@@ -85,7 +86,32 @@ export default function ProjectsSection() {
               {p.tag}
             </span>
             <h3 className="font-heading text-2xl font-bold mt-4 mb-2 text-foreground">{p.title}</h3>
-            <p className="text-muted-foreground">{p.desc}</p>
+            <p className="text-muted-foreground mb-6">{p.desc}</p>
+            <div className="flex items-center gap-3">
+              <a
+                href={p.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105"
+                style={{
+                  background: `${p.color}15`,
+                  color: p.color,
+                  border: `1px solid ${p.color}40`,
+                }}
+              >
+                <ExternalLink className="w-4 h-4" />
+                Live Demo
+              </a>
+              <a
+                href={p.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-border bg-background/50 text-foreground transition-all duration-300 hover:scale-105 hover:bg-background"
+              >
+                <Github className="w-4 h-4" />
+                GitHub
+              </a>
+            </div>
           </div>
         ))}
       </div>
