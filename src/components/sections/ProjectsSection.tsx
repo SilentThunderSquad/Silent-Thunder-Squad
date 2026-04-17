@@ -86,7 +86,32 @@ export default function ProjectsSection() {
               {p.tag}
             </span>
             <h3 className="font-heading text-2xl font-bold mt-4 mb-2 text-foreground">{p.title}</h3>
-            <p className="text-muted-foreground">{p.desc}</p>
+            <p className="text-muted-foreground mb-6">{p.desc}</p>
+            <div className="flex items-center gap-3">
+              <a
+                href={p.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105"
+                style={{
+                  background: `${p.color}15`,
+                  color: p.color,
+                  border: `1px solid ${p.color}40`,
+                }}
+              >
+                <ExternalLink className="w-4 h-4" />
+                Live Demo
+              </a>
+              <a
+                href={p.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-border bg-background/50 text-foreground transition-all duration-300 hover:scale-105 hover:bg-background"
+              >
+                <Github className="w-4 h-4" />
+                GitHub
+              </a>
+            </div>
           </div>
         ))}
       </div>
