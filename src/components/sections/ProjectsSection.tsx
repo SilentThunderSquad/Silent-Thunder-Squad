@@ -3,15 +3,20 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import { ExternalLink, Github } from 'lucide-react';
+import neuralVaultImg from '@/assets/project-neuralvault.jpg';
+import cipherLinkImg from '@/assets/project-cipherlink.jpg';
+import quantumDashImg from '@/assets/project-quantumdash.jpg';
+import ecoSphereImg from '@/assets/project-ecosphere.jpg';
+import arcRealityImg from '@/assets/project-arcreality.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { title: 'NeuralVault', desc: 'AI-powered knowledge management platform', tag: 'Machine Learning', color: '#3b82f6', demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'CipherLink', desc: 'End-to-end encrypted communication network', tag: 'Security', color: '#8b5cf6', demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'QuantumDash', desc: 'Real-time analytics dashboard for enterprises', tag: 'Analytics', color: '#06b6d4', demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981', demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b', demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'NeuralVault', desc: 'AI-powered knowledge management platform', tag: 'Machine Learning', color: '#3b82f6', image: neuralVaultImg, demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'CipherLink', desc: 'End-to-end encrypted communication network', tag: 'Security', color: '#8b5cf6', image: cipherLinkImg, demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'QuantumDash', desc: 'Real-time analytics dashboard for enterprises', tag: 'Analytics', color: '#06b6d4', image: quantumDashImg, demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981', image: ecoSphereImg, demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b', image: arcRealityImg, demo: 'https://example.com', github: 'https://github.com' },
 ];
 
 export default function ProjectsSection() {
@@ -73,11 +78,25 @@ export default function ProjectsSection() {
             className="w-[80vw] md:w-[35vw] shrink-0 glass rounded-2xl p-8 group cursor-pointer transition-all duration-500 hover:scale-[1.02]"
             style={{ borderTop: `2px solid ${p.color}40` }}
           >
-            <div className="h-48 rounded-xl mb-6 flex items-center justify-center" style={{
-              background: `linear-gradient(135deg, ${p.color}15, ${p.color}05)`,
-              border: `1px solid ${p.color}20`,
-            }}>
-              <span className="text-muted-foreground text-sm uppercase tracking-widest">Preview</span>
+            <div
+              className="h-48 rounded-xl mb-6 overflow-hidden relative"
+              style={{
+                border: `1px solid ${p.color}20`,
+                boxShadow: `0 8px 32px -8px ${p.color}30`,
+              }}
+            >
+              <img
+                src={p.image}
+                alt={`${p.title} project preview`}
+                loading="lazy"
+                width={1024}
+                height={640}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{ background: `linear-gradient(135deg, ${p.color}25, transparent 60%)` }}
+              />
             </div>
             <span className="text-xs uppercase tracking-widest font-medium px-3 py-1 rounded-full" style={{
               color: p.color,
