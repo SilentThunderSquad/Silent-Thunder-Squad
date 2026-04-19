@@ -91,7 +91,8 @@ export default function ProjectsSection() {
                 loading="lazy"
                 width={1024}
                 height={640}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                style={{ willChange: 'transform' }}
               />
               <div
                 className="absolute inset-0 pointer-events-none"
