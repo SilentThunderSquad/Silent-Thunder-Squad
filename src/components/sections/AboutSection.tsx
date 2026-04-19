@@ -151,12 +151,14 @@ export default function AboutSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="h-72 sm:h-80 md:h-96 order-2 md:order-1">
-            <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]}>
-              <ambientLight intensity={0.4} />
-              <pointLight position={[3, 3, 3]} intensity={0.6} color="#3b82ff" />
-              <pointLight position={[-3, -3, 3]} intensity={0.3} color="#8b5cf6" />
-              <RotatingTorus />
+          <div className="h-80 sm:h-96 md:h-[28rem] order-2 md:order-1 cursor-crosshair">
+            <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={[1, 1.5]}>
+              <ambientLight intensity={0.5} />
+              <pointLight position={[4, 4, 4]} intensity={1.2} color="#2563eb" />
+              <pointLight position={[-4, -2, 3]} intensity={0.8} color="#7c3aed" />
+              <pointLight position={[0, 0, 5]} intensity={0.6} color="#22d3ee" />
+              <MouseTrackedCrystal />
+              <OrbitingParticles count={90} />
             </Canvas>
           </div>
           <div className="order-1 md:order-2 w-full">
