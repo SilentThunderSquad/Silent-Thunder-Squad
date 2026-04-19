@@ -23,21 +23,38 @@ export default function Index() {
   useEffect(() => {
     if (!loaded) return;
 
+    // Honor reduced-motion preference: skip Lenis entirely (use native scroll).
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      ScrollTrigger.refresh();
+      return;
+    }
+
+    const isMobile = window.innerWidth < 768;
+
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: isMobile ? 0.9 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      // Native touch scroll on mobile feels better and avoids jank
+      syncTouch: false,
+      touchMultiplier: 1.5,
+      wheelMultiplier: 1,
     });
 
+    // Sync Lenis -> ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+    const raf = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
+    // Make sure ScrollTrigger picks up the new (smooth) scroll position
+    ScrollTrigger.refresh();
+
     return () => {
+      gsap.ticker.remove(raf);
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
     };
   }, [loaded]);
 
