@@ -75,7 +75,7 @@ export default function ProjectsSection() {
         {projects.map((p) => (
           <div
             key={p.title}
-            className="w-[80vw] md:w-[35vw] shrink-0 glass rounded-2xl p-8 group cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+            className="w-[80vw] md:w-[35vw] shrink-0 glass hover-lift rounded-2xl p-8 group cursor-pointer"
             style={{ borderTop: `2px solid ${p.color}40` }}
           >
             <div

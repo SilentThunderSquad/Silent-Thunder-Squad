@@ -53,17 +53,15 @@ export default function CTASection() {
         </div>
         <button
           ref={btnRef}
-          className="px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide transition-all duration-300 animate-pulse-glow cursor-pointer"
+          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer"
           style={{
             background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
             color: 'hsl(var(--primary-foreground))',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.boxShadow = '0 0 40px hsl(210 100% 55% / 0.6), 0 0 80px hsl(270 60% 55% / 0.3)';
+            e.currentTarget.style.boxShadow = '0 0 40px hsl(var(--primary) / 0.6), 0 0 80px hsl(var(--accent) / 0.3)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
             e.currentTarget.style.boxShadow = '';
           }}
         >
