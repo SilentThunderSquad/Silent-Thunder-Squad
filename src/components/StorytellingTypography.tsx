@@ -117,7 +117,7 @@ export function ScrollMarquee({ words, direction = 'left' }: { words: string[]; 
 /**
  * Paragraph text where each word reveals with opacity and blur as you scroll.
  */
-export function ScrollParagraph({ text }: { text: string }) {
+export function ScrollParagraph({ text, align = 'center' }: { text: string; align?: 'center' | 'left' }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -148,10 +148,11 @@ export function ScrollParagraph({ text }: { text: string }) {
   }, []);
 
   const words = text.split(' ');
+  const isCenter = align === 'center';
 
   return (
-    <div ref={containerRef} className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-      <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-heading font-light leading-relaxed text-foreground text-center">
+    <div ref={containerRef} className={`w-full ${isCenter ? 'max-w-4xl mx-auto px-4 sm:px-6' : ''}`}>
+      <p className={`font-heading font-light leading-relaxed text-foreground ${isCenter ? 'text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center' : 'text-lg sm:text-xl md:text-2xl text-left'}`}>
         {words.map((word, wi) => (
           <span key={wi} className="inline-block mr-[0.3em]">
             {word.split('').map((char, ci) => (
