@@ -41,17 +41,16 @@ function TeamCard({ name, role, desc, img, accent, index }: { name: string; role
   return (
     <div
       ref={cardRef}
-      className="glass rounded-2xl overflow-hidden group cursor-pointer transition-all duration-500 hover:-translate-y-2"
+      className="team-card glass hover-lift rounded-2xl overflow-hidden group cursor-pointer"
       style={{
         border: `1px solid ${accent}30`,
-        boxShadow: `0 0 0 0 ${accent}00`,
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 20px 60px -15px ${accent}50`;
+        e.currentTarget.style.boxShadow = `0 24px 60px -20px ${accent}55, 0 0 0 1px ${accent}80`;
         e.currentTarget.style.borderColor = `${accent}80`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = `0 0 0 0 ${accent}00`;
+        e.currentTarget.style.boxShadow = '';
         e.currentTarget.style.borderColor = `${accent}30`;
       }}
     >

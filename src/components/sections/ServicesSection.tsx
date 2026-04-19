@@ -1,9 +1,8 @@
-import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SplitType from 'split-type';
 import { RotatingCharsText } from '../StorytellingTypography';
 import { AmbientDots } from '../StorytellingElements';
+import { useScrollReveal, prefersReducedMotion } from '@/hooks/useScrollReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,36 +15,22 @@ const services = [
   { title: 'Cybersecurity', desc: 'Fortified digital defenses protecting assets in an ever-evolving threat landscape.', icon: '🛡️' },
 ];
 
-function ServiceCard({ title, desc, icon, index }: { title: string; desc: string; icon: string; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!cardRef.current) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo(cardRef.current,
-        { opacity: 0, y: 60, scale: 0.95 },
-        {
-          opacity: 1, y: 0, scale: 1, duration: 0.6, delay: index * 0.1, ease: 'power3.out',
-          scrollTrigger: { trigger: cardRef.current, start: 'top 90%' },
-        }
-      );
-    });
-    return () => ctx.revert();
-  }, [index]);
+function ServiceCard({ title, desc, icon }: { title: string; desc: string; icon: string }) {
+  const reduced = prefersReducedMotion();
 
   return (
     <div
-      ref={cardRef}
-      className="glass rounded-xl p-8 group cursor-pointer transition-all duration-300 hover:neon-glow"
+      className="service-card glass hover-lift rounded-xl p-8 group cursor-pointer"
       style={{ transformStyle: 'preserve-3d' }}
       onMouseMove={(e) => {
+        if (reduced) return;
         const rect = e.currentTarget.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / 10;
-        const y = -(e.clientY - rect.top - rect.height / 2) / 10;
-        e.currentTarget.style.transform = `perspective(600px) rotateY(${x}deg) rotateX(${y}deg) scale(1.02)`;
+        const x = (e.clientX - rect.left - rect.width / 2) / 14;
+        const y = -(e.clientY - rect.top - rect.height / 2) / 14;
+        e.currentTarget.style.transform = `perspective(800px) translateY(-6px) rotateY(${x}deg) rotateX(${y}deg)`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'perspective(600px) rotateY(0) rotateX(0) scale(1)';
+        e.currentTarget.style.transform = '';
       }}
     >
       <div className="text-4xl mb-4">{icon}</div>
@@ -58,6 +43,13 @@ function ServiceCard({ title, desc, icon, index }: { title: string; desc: string
 }
 
 export default function ServicesSection() {
+  const gridRef = useScrollReveal<HTMLDivElement>({
+    selector: '.service-card',
+    from: 'bottom',
+    stagger: 0.1,
+    duration: 0.8,
+  });
+
   return (
     <section className="py-32 px-6 relative">
       <AmbientDots />
@@ -65,9 +57,9 @@ export default function ServicesSection() {
         <div className="mb-16">
           <RotatingCharsText text="What We Do" />
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((s, i) => (
-            <ServiceCard key={s.title} {...s} index={i} />
+        <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((s) => (
+            <ServiceCard key={s.title} {...s} />
           ))}
         </div>
       </div>

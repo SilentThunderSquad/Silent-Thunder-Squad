@@ -91,6 +91,46 @@
   .gradient-border {
     border-image: linear-gradient(135deg, hsl(var(--neon-blue)), hsl(var(--neon-purple))) 1;
   }
+  /* Premium hover utility: smooth lift + accent glow + border highlight */
+  .hover-lift {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease;
+    will-change: transform;
+  }
+  .hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 20px 50px -20px hsl(var(--primary) / 0.35),
+      0 0 0 1px hsl(var(--primary) / 0.25);
+  }
+  /* Smooth, GPU-friendly button hover */
+  .btn-smooth {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.3s ease,
+                color 0.3s ease;
+    will-change: transform;
+  }
+  .btn-smooth:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+  .btn-smooth:active {
+    transform: translateY(0) scale(0.99);
+  }
+}
+
+/* Respect reduced motion: kill all transitions, transforms, and infinite animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-flicker, .animate-float, .animate-pulse-glow, .animate-glitch {
+    animation: none !important;
+  }
 }
 
 /* Custom scrollbar */
