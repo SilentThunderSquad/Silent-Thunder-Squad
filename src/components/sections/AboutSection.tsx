@@ -1,26 +1,105 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ScrollParagraph, ScrollCounter } from '../StorytellingTypography';
 import { AmbientDots } from '../StorytellingElements';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function RotatingTorus() {
-  const ref = useRef<THREE.Mesh>(null);
+/** Core crystal that rotates toward the mouse and breathes. */
+function MouseTrackedCrystal() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
+  const { mouse } = useThree();
+  const targetRot = useRef({ x: 0, y: 0 });
+
   useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.rotation.x = state.clock.elapsedTime * 0.3;
-    ref.current.rotation.y = state.clock.elapsedTime * 0.2;
+    if (!meshRef.current) return;
+    // Smooth rotation toward mouse
+    targetRot.current.y = mouse.x * 0.8;
+    targetRot.current.x = -mouse.y * 0.6;
+    meshRef.current.rotation.x += (targetRot.current.x - meshRef.current.rotation.x) * 0.06;
+    meshRef.current.rotation.y += (targetRot.current.y - meshRef.current.rotation.y) * 0.06;
+    // Idle spin + breathing scale
+    meshRef.current.rotation.z = state.clock.elapsedTime * 0.15;
+    const s = 1 + Math.sin(state.clock.elapsedTime * 1.2) * 0.04;
+    meshRef.current.scale.setScalar(s);
+
+    if (glowRef.current) {
+      glowRef.current.rotation.copy(meshRef.current.rotation);
+      glowRef.current.scale.setScalar(s * 1.15);
+    }
   });
+
   return (
-    <mesh ref={ref}>
-      <torusKnotGeometry args={[1, 0.3, 128, 32]} />
-      <meshStandardMaterial color="#3b82ff" wireframe transparent opacity={0.4} />
-    </mesh>
+    <group>
+      {/* Outer wireframe glow */}
+      <mesh ref={glowRef}>
+        <icosahedronGeometry args={[1.3, 1]} />
+        <meshBasicMaterial color="#7c3aed" wireframe transparent opacity={0.25} />
+      </mesh>
+      {/* Inner solid crystal */}
+      <mesh ref={meshRef}>
+        <icosahedronGeometry args={[1, 0]} />
+        <meshStandardMaterial
+          color="#2563eb"
+          metalness={0.7}
+          roughness={0.15}
+          emissive="#22d3ee"
+          emissiveIntensity={0.35}
+          flatShading
+        />
+      </mesh>
+    </group>
+  );
+}
+
+/** Particles that orbit the crystal and drift toward the cursor. */
+function OrbitingParticles({ count = 80 }: { count?: number }) {
+  const pointsRef = useRef<THREE.Points>(null);
+  const { mouse } = useThree();
+
+  const { positions, speeds, radii, offsets } = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const speeds = new Float32Array(count);
+    const radii = new Float32Array(count);
+    const offsets = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      radii[i] = 1.8 + Math.random() * 1.2;
+      speeds[i] = 0.2 + Math.random() * 0.5;
+      offsets[i] = Math.random() * Math.PI * 2;
+      positions[i * 3] = 0;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 2;
+      positions[i * 3 + 2] = 0;
+    }
+    return { positions, speeds, radii, offsets };
+  }, [count]);
+
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    const geo = pointsRef.current.geometry as THREE.BufferGeometry;
+    const arr = (geo.attributes.position as THREE.BufferAttribute).array as Float32Array;
+    const t = state.clock.elapsedTime;
+    for (let i = 0; i < count; i++) {
+      const angle = offsets[i] + t * speeds[i];
+      arr[i * 3] = Math.cos(angle) * radii[i] + mouse.x * 0.4;
+      arr[i * 3 + 1] = Math.sin(angle * 0.7) * radii[i] * 0.5 + mouse.y * 0.3;
+      arr[i * 3 + 2] = Math.sin(angle) * radii[i];
+    }
+    (geo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+    pointsRef.current.rotation.y = t * 0.05;
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+      </bufferGeometry>
+      <pointsMaterial size={0.06} color="#22d3ee" transparent opacity={0.85} sizeAttenuation depthWrite={false} />
+    </points>
   );
 }
 
@@ -72,12 +151,14 @@ export default function AboutSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="h-72 sm:h-80 md:h-96 order-2 md:order-1">
-            <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]}>
-              <ambientLight intensity={0.4} />
-              <pointLight position={[3, 3, 3]} intensity={0.6} color="#3b82ff" />
-              <pointLight position={[-3, -3, 3]} intensity={0.3} color="#8b5cf6" />
-              <RotatingTorus />
+          <div className="h-80 sm:h-96 md:h-[28rem] order-2 md:order-1 cursor-crosshair">
+            <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={[1, 1.5]}>
+              <ambientLight intensity={0.5} />
+              <pointLight position={[4, 4, 4]} intensity={1.2} color="#2563eb" />
+              <pointLight position={[-4, -2, 3]} intensity={0.8} color="#7c3aed" />
+              <pointLight position={[0, 0, 5]} intensity={0.6} color="#22d3ee" />
+              <MouseTrackedCrystal />
+              <OrbitingParticles count={90} />
             </Canvas>
           </div>
           <div className="order-1 md:order-2 w-full">
