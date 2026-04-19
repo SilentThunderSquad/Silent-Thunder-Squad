@@ -131,6 +131,7 @@
   .animate-flicker, .animate-float, .animate-pulse-glow, .animate-glitch {
     animation: none !important;
   }
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
