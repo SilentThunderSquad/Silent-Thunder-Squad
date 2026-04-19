@@ -152,7 +152,7 @@ export function ScrollParagraph({ text, align = 'center' }: { text: string; alig
 
   return (
     <div ref={containerRef} className={`w-full ${isCenter ? 'max-w-4xl mx-auto px-4 sm:px-6' : ''}`}>
-      <p className={`font-heading font-light leading-relaxed text-foreground ${isCenter ? 'text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center' : 'text-lg sm:text-xl md:text-2xl text-left'}`}>
+      <p className={`font-heading font-light leading-relaxed text-foreground ${isCenter ? 'text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center' : 'text-xl sm:text-2xl md:text-3xl lg:text-[2rem] text-left'}`}>
         {words.map((word, wi) => (
           <span key={wi} className="inline-block mr-[0.3em]">
             {word.split('').map((char, ci) => (
