@@ -57,23 +57,48 @@ function TeamCard({ name, role, desc, img, accent, index }: { name: string; role
     >
       {/* Image area */}
       <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+        {/* Color layer (revealed on hover) */}
+        <img
+          src={img}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          width={768}
+          height={1024}
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-110"
+        />
+        {/* Grayscale layer (default) */}
         <img
           src={img}
           alt={`${name} - ${role}`}
           loading="lazy"
           width={768}
           height={1024}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="relative w-full h-full object-cover transition-all duration-700 ease-out grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:opacity-0 group-hover:scale-110"
         />
-        {/* Gradient overlay */}
+        {/* Accent color sweep on hover */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-overlay"
+          style={{
+            background: `linear-gradient(135deg, ${accent}40 0%, transparent 50%, ${accent}30 100%)`,
+          }}
+        />
+        {/* Bottom fade for text legibility */}
+        <div
+          className="absolute inset-0 pointer-events-none"
           style={{
             background: `linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background) / 0.3) 40%, transparent 70%)`,
           }}
         />
+        {/* Accent glow ring on hover */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            boxShadow: `inset 0 0 60px ${accent}40`,
+          }}
+        />
         {/* Status dot */}
-        <div className="absolute top-4 right-4 flex items-center gap-2">
+        <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
           <span className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ background: accent, boxShadow: `0 0 10px ${accent}` }} />
         </div>
       </div>
