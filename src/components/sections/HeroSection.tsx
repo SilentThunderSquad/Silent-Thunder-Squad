@@ -67,8 +67,8 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <ParticleField />
-      <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse at center, transparent 0%, hsl(230 25% 5% / 0.4) 50%, hsl(230 25% 5% / 0.9) 100%)',
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse at center, transparent 0%, hsl(var(--background) / 0.4) 50%, hsl(var(--background) / 0.85) 100%)',
       }} />
 
       <div className="relative z-10 text-center px-4 sm:px-6 w-full mx-auto flex flex-col items-center justify-center">

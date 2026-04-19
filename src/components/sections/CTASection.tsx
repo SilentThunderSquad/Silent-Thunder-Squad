@@ -55,8 +55,8 @@ export default function CTASection() {
           ref={btnRef}
           className="px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide transition-all duration-300 animate-pulse-glow cursor-pointer"
           style={{
-            background: 'linear-gradient(135deg, hsl(210 100% 55%), hsl(270 60% 55%))',
-            color: 'hsl(230 25% 5%)',
+            background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
+            color: 'hsl(var(--primary-foreground))',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'scale(1.05)';
