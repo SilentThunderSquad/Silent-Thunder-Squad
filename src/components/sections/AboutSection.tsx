@@ -82,6 +82,7 @@ export default function AboutSection() {
           </div>
           <div className="order-1 md:order-2 w-full">
             <ScrollParagraph
+              align="left"
               text="Silent Thunder Squad operates at the intersection of cutting-edge technology and human-centered design, delivering experiences that resonate and endure."
             />
           </div>
