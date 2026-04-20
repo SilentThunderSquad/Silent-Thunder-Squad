@@ -151,10 +151,10 @@ export function ScrollParagraph({ text, align = 'center' }: { text: string; alig
   const isCenter = align === 'center';
 
   return (
-    <div ref={containerRef} className={`w-full ${isCenter ? 'max-w-4xl mx-auto px-4 sm:px-6' : ''}`}>
-      <p className={`font-heading font-light leading-relaxed text-foreground ${isCenter ? 'text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center' : 'text-xl sm:text-2xl md:text-3xl lg:text-[2rem] text-left'}`}>
+    <div ref={containerRef} className={`w-full ${isCenter ? 'max-w-5xl mx-auto px-4 sm:px-6' : ''}`}>
+      <p className={`font-heading font-light leading-[2.2] text-foreground ${isCenter ? 'text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] text-center' : 'text-xl sm:text-2xl md:text-3xl lg:text-[2rem] text-left'}`}>
         {words.map((word, wi) => (
-          <span key={wi} className="inline-block mr-[0.3em]">
+          <span key={wi} className="inline-block mr-[0.5em]">
             {word.split('').map((char, ci) => (
               <span
                 key={ci}
@@ -200,9 +200,9 @@ export function ScrollCounter({ value, label, suffix = '' }: { value: number; la
   }, [value, suffix]);
 
   return (
-    <div ref={containerRef} className="text-center">
-      <span ref={numRef} className="font-heading text-5xl md:text-7xl font-bold gradient-text">0</span>
-      <p className="text-muted-foreground mt-2 text-sm uppercase tracking-widest">{label}</p>
+    <div ref={containerRef} className="text-center group">
+      <span ref={numRef} className="font-heading text-6xl md:text-8xl font-bold gradient-text block mb-2 transition-transform duration-500 group-hover:scale-110">0</span>
+      <p className="text-muted-foreground text-sm md:text-base uppercase tracking-[0.3em] font-medium">{label}</p>
     </div>
   );
 }

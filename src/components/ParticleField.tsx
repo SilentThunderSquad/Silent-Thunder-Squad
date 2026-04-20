@@ -1,108 +1,121 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function Particles({ count = 500 }) {
-  const mesh = useRef<THREE.Points>(null);
-  const mouse = useRef({ x: 0, y: 0 });
-  const { viewport } = useThree();
+/**
+ * Antigravity-style scattered dashes with 3D parallax tilt
+ * and continuous waving/floating motion.
+ */
+function AntigravityDashes({ count = 800 }) {
+  const group = useRef<THREE.Group>(null);
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const { camera, size } = useThree();
 
-  const [positions, velocities] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const vel = new Float32Array(count * 3);
+  const ndcMouse = useRef({ x: 0, y: 0 });
+  const smoothNdc = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      ndcMouse.current.x = (e.clientX / size.width) * 2 - 1;
+      ndcMouse.current.y = -(e.clientY / size.height) * 2 + 1;
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, [size]);
+
+  const particles = useMemo(() => {
+    const data = [];
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
-      vel[i * 3] = (Math.random() - 0.5) * 0.005;
-      vel[i * 3 + 1] = (Math.random() - 0.5) * 0.005;
-      vel[i * 3 + 2] = (Math.random() - 0.5) * 0.002;
+      data.push({
+        x: (Math.random() - 0.5) * 50,
+        y: (Math.random() - 0.5) * 30,
+        z: (Math.random() - 0.5) * 20,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.3,
+        scale: 0.6 + Math.random() * 1.0,
+        colorIdx: Math.floor(Math.random() * 4),
+        // Continuous waving motion — unique per particle
+        waveSpeedX: 0.3 + Math.random() * 0.6,
+        waveSpeedY: 0.2 + Math.random() * 0.5,
+        waveAmpX: 0.3 + Math.random() * 0.8,
+        waveAmpY: 0.2 + Math.random() * 0.6,
+        waveOffset: Math.random() * Math.PI * 2,
+      });
     }
-    return [pos, vel];
+    return data;
   }, [count]);
 
-  const colors = useMemo(() => {
-    const cols = new Float32Array(count * 3);
+  const dashGeo = useMemo(() => new THREE.PlaneGeometry(0.5, 0.08), []);
+
+  const colors = useMemo(() => [
+    new THREE.Color('#3b82f6'),
+    new THREE.Color('#ef4444'),
+    new THREE.Color('#8b5cf6'),
+    new THREE.Color('#f97316'),
+  ], []);
+
+  const dashMat = useMemo(() => new THREE.MeshBasicMaterial({
+    transparent: true,
+    opacity: 0.7,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  }), []);
+
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  useEffect(() => {
+    if (!meshRef.current) return;
     for (let i = 0; i < count; i++) {
-      const t = Math.random();
-      if (t < 0.5) {
-        cols[i * 3] = 0.2; cols[i * 3 + 1] = 0.5; cols[i * 3 + 2] = 1.0;
-      } else {
-        cols[i * 3] = 0.5; cols[i * 3 + 1] = 0.2; cols[i * 3 + 2] = 1.0;
-      }
+      meshRef.current.setColorAt(i, colors[particles[i].colorIdx]);
     }
-    return cols;
-  }, [count]);
+    if (meshRef.current.instanceColor) meshRef.current.instanceColor.needsUpdate = true;
+  }, [count, colors, particles]);
 
   useFrame((state) => {
-    if (!mesh.current) return;
-    const geo = mesh.current.geometry;
-    const posArr = geo.attributes.position.array as Float32Array;
-    
-    const mx = (state.pointer.x * viewport.width) / 2;
-    const my = (state.pointer.y * viewport.height) / 2;
-    mouse.current = { x: mx, y: my };
+    if (!meshRef.current || !group.current) return;
+    const t = state.clock.elapsedTime;
+
+    smoothNdc.current.x += (ndcMouse.current.x - smoothNdc.current.x) * 0.05;
+    smoothNdc.current.y += (ndcMouse.current.y - smoothNdc.current.y) * 0.05;
 
     for (let i = 0; i < count; i++) {
-      posArr[i * 3] += velocities[i * 3];
-      posArr[i * 3 + 1] += velocities[i * 3 + 1];
-      posArr[i * 3 + 2] += velocities[i * 3 + 2];
+      const p = particles[i];
+      const angle = p.rotation + t * p.rotSpeed;
 
-      // Mouse repulsion
-      const dx = posArr[i * 3] - mx;
-      const dy = posArr[i * 3 + 1] - my;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 2) {
-        posArr[i * 3] += dx * 0.01;
-        posArr[i * 3 + 1] += dy * 0.01;
-      }
+      // Continuous floating/waving motion
+      const wx = Math.sin(t * p.waveSpeedX + p.waveOffset) * p.waveAmpX;
+      const wy = Math.cos(t * p.waveSpeedY + p.waveOffset) * p.waveAmpY;
 
-      // Bounds
-      if (Math.abs(posArr[i * 3]) > 10) velocities[i * 3] *= -1;
-      if (Math.abs(posArr[i * 3 + 1]) > 10) velocities[i * 3 + 1] *= -1;
-      if (Math.abs(posArr[i * 3 + 2]) > 5) velocities[i * 3 + 2] *= -1;
+      dummy.position.set(p.x + wx, p.y + wy, p.z);
+      dummy.rotation.set(0, 0, angle);
+      dummy.scale.set(p.scale, p.scale, 1);
+      dummy.updateMatrix();
+      meshRef.current.setMatrixAt(i, dummy.matrix);
     }
-    geo.attributes.position.needsUpdate = true;
-    mesh.current.rotation.y += 0.0003;
+    meshRef.current.instanceMatrix.needsUpdate = true;
+
+    // 3D parallax tilt
+    group.current.rotation.y = smoothNdc.current.x * 0.3;
+    group.current.rotation.x = -smoothNdc.current.y * 0.2;
   });
 
   return (
-    <points ref={mesh}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} count={count} itemSize={3} />
-        <bufferAttribute attach="attributes-color" args={[colors, 3]} count={count} itemSize={3} />
-      </bufferGeometry>
-      <pointsMaterial size={0.04} vertexColors transparent opacity={0.8} sizeAttenuation />
-    </points>
-  );
-}
-
-function FloatingSphere() {
-  const ref = useRef<THREE.Mesh>(null);
-  useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.5;
-    ref.current.rotation.x = state.clock.elapsedTime * 0.2;
-    ref.current.rotation.z = state.clock.elapsedTime * 0.1;
-  });
-
-  return (
-    <mesh ref={ref} position={[3, 0, -2]}>
-      <icosahedronGeometry args={[1.2, 1]} />
-      <meshStandardMaterial color="#3b82ff" wireframe transparent opacity={0.3} />
-    </mesh>
+    <group ref={group}>
+      <instancedMesh ref={meshRef} args={[dashGeo, dashMat, count]} />
+    </group>
   );
 }
 
 export default function ParticleField({ className = '' }: { className?: string }) {
   return (
     <div className={`absolute inset-0 ${className}`}>
-      <Canvas camera={{ position: [0, 0, 6], fov: 60 }} dpr={[1, 1.5]}>
-        <ambientLight intensity={0.3} />
-        <pointLight position={[5, 5, 5]} intensity={0.5} color="#3b82ff" />
-        <pointLight position={[-5, -5, 5]} intensity={0.3} color="#8b5cf6" />
-        <Particles />
-        <FloatingSphere />
+      <Canvas
+        camera={{ position: [0, 0, 20], fov: 50 }}
+        dpr={[1, 2]}
+        gl={{ alpha: true }}
+        style={{ background: 'transparent' }}
+      >
+        <AntigravityDashes />
       </Canvas>
     </div>
   );

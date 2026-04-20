@@ -65,19 +65,19 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <ParticleField />
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse at center, transparent 0%, hsl(var(--background) / 0.4) 50%, hsl(var(--background) / 0.85) 100%)',
+        background: 'radial-gradient(circle at center, transparent 0%, hsl(var(--background) / 0.1) 50%, hsl(var(--background) / 0.3) 100%)',
       }} />
 
-      <div className="relative z-10 text-center px-4 sm:px-6 w-full mx-auto flex flex-col items-center justify-center">
+      <div className="relative z-10 text-center px-4 sm:px-6 w-full mx-auto flex flex-col items-center justify-center pointer-events-none select-none">
 
         <p
           ref={taglineRef}
-          className="text-fluid-tagline uppercase tracking-[0.4em] text-primary mb-6 font-light text-center"
+          className="text-fluid-tagline uppercase tracking-[0.4em] text-slate-500 mb-6 font-light text-center"
         >
-          Est. 2024 — Innovation Collective
+          Est. 2025 — Innovation Collective
         </p>
 
         <div ref={titleRef} className="relative w-full flex justify-center">
@@ -86,28 +86,26 @@ export default function HeroSection() {
             className="pointer-events-none absolute inset-0 -z-10 mx-auto"
             style={{
               background:
-                'radial-gradient(ellipse at center, hsl(var(--neon-blue) / 0.18) 0%, hsl(var(--neon-purple) / 0.10) 35%, transparent 70%)',
-              filter: 'blur(40px)',
+                'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.03) 40%, transparent 75%)',
+              filter: 'blur(60px)',
             }}
           />
           <h1
-            className="font-display font-bold mb-8 neon-text text-fluid-hero text-center mx-auto max-w-[14ch] sm:max-w-none sm:whitespace-nowrap"
+            className="font-display font-bold mb-8 text-slate-900 text-fluid-hero text-center mx-auto max-w-[14ch] sm:max-w-none sm:whitespace-nowrap"
           >
             Silent Thunder Squad
           </h1>
         </div>
 
         <div ref={subtitleRef}>
-          <p className="text-fluid-lead text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-fluid-lead text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
             Building Real-World Solutions with Innovation
           </p>
         </div>
 
-        <div className="mt-16 flex flex-col items-center gap-2 animate-float">
-          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground opacity-50">Scroll to explore</span>
-          <div className="w-px h-12" style={{
-            background: 'linear-gradient(to bottom, hsl(210 100% 55% / 0.5), transparent)',
-          }} />
+        <div className="mt-16 flex flex-col items-center gap-2 animate-float opacity-30">
+          <span className="text-xs uppercase tracking-[0.3em] text-slate-400">Scroll to explore</span>
+          <div className="w-px h-12 bg-slate-300" />
         </div>
       </div>
     </section>
