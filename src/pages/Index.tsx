@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LoadingScreen from '../components/LoadingScreen';
 import CustomCursor from '../components/CustomCursor';
+import ScrollProgress from '../components/ScrollProgress';
 import HeroSection from '../components/sections/HeroSection';
 import AboutSection from '../components/sections/AboutSection';
 import ServicesSection from '../components/sections/ServicesSection';
@@ -63,6 +64,7 @@ export default function Index() {
       <LoadingScreen onComplete={onLoadComplete} />
       {loaded && (
         <>
+          <ScrollProgress />
           <CustomCursor />
           <main>
             {/* Chapter 1: Hero */}
