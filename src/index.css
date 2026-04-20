@@ -105,11 +105,26 @@
   .neon-glow-purple {
     box-shadow: 0 0 20px hsl(var(--neon-purple) / 0.3), 0 0 60px hsl(var(--neon-purple) / 0.1);
   }
+  /* Crisp gradient title — no per-letter halo. Soft ambient glow handled by ::after on the container. */
   .neon-text {
-    text-shadow: 0 0 10px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.2);
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--neon-blue)) 60%, hsl(var(--neon-purple)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+    filter: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   .neon-text-purple {
-    text-shadow: 0 0 10px hsl(var(--neon-purple) / 0.5), 0 0 40px hsl(var(--neon-purple) / 0.2);
+    background: linear-gradient(135deg, hsl(var(--neon-purple)) 0%, hsl(var(--neon-blue)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
   }
   .gradient-text {
     background: linear-gradient(135deg, hsl(var(--neon-blue)), hsl(var(--neon-purple)));

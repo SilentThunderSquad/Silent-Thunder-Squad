@@ -80,7 +80,16 @@ export default function HeroSection() {
           Est. 2024 — Innovation Collective
         </p>
 
-        <div ref={titleRef} style={{ perspective: '800px' }} className="w-full flex justify-center">
+        <div ref={titleRef} className="relative w-full flex justify-center">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-10 mx-auto"
+            style={{
+              background:
+                'radial-gradient(ellipse at center, hsl(var(--neon-blue) / 0.18) 0%, hsl(var(--neon-purple) / 0.10) 35%, transparent 70%)',
+              filter: 'blur(40px)',
+            }}
+          />
           <h1
             className="font-display font-bold mb-8 neon-text text-fluid-hero text-center mx-auto max-w-[14ch] sm:max-w-none sm:whitespace-nowrap"
           >
