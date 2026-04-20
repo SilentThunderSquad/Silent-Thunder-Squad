@@ -3,22 +3,22 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Twitter } from 'lucide-react';
 import { RotatingCharsText } from '../StorytellingTypography';
-import vivekImg from '@/assets/team-vivek.jpg';
-import omImg from '@/assets/team-om.jpg';
-import anujImg from '@/assets/team-anuj.jpg';
-import navImg from '@/assets/team-nav.jpg';
-import rajitImg from '@/assets/team-rajit.jpg';
-import priyanshuImg from '@/assets/team-priyanshu.jpg';
+import vivekImg from '@/assets/vivek.jpg';
+import omImg from '@/assets/om.jpg';
+import anujImg from '@/assets/anuj.jpg';
+import navImg from '@/assets/nav.jpg';
+import rajitImg from '@/assets/rajit.jpg';
+import priyanshuImg from '@/assets/priyanshu.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const team = [
-  { name: 'Vivek Kumar Verma', role: 'Team Leader', desc: 'Full-stack architect with a passion for scalable systems.', img: vivekImg, accent: 'hsl(210 100% 55%)' },
-  { name: 'Om Singh', role: 'UX Designer', desc: 'Crafting human-centered experiences that delight and inspire.', img: omImg, accent: 'hsl(270 70% 60%)' },
-  { name: 'Anuj Vashishth', role: 'AI Engineer', desc: 'Building intelligent systems that understand the world.', img: anujImg, accent: 'hsl(190 100% 55%)' },
-  { name: 'Nav Sharma', role: 'DevOps Lead', desc: 'Orchestrating cloud infrastructure for maximum resilience.', img: navImg, accent: 'hsl(150 80% 50%)' },
-  { name: 'Rajit Shikharwar', role: 'Mobile Developer', desc: 'Creating seamless cross-platform mobile experiences.', img: rajitImg, accent: 'hsl(25 95% 55%)' },
-  { name: 'Priyanshu Varshney', role: 'Security Analyst', desc: 'Defending digital frontiers with vigilance and expertise.', img: priyanshuImg, accent: 'hsl(0 80% 60%)' },
+  { name: 'Vivek Kumar Verma', role: 'Team Leader • Full Stack & DevOps', desc: 'Visionary team leader and architect, bridging the gap between full-stack innovation and scalable DevOps orchestration.', img: vivekImg, accent: 'hsl(210 100% 55%)' },
+  { name: 'Om Singh', role: 'Backend & ML Engineer', desc: 'Specializing in robust backend systems and machine learning models that power intelligent, data-driven applications.', img: omImg, accent: 'hsl(270 70% 60%)' },
+  { name: 'Anuj Vashishth', role: 'Frontend Developer & Data Entry', desc: 'Designing responsive, fluid frontend interfaces while ensuring data integrity and precision through meticulous management.', img: anujImg, accent: 'hsl(190 100% 55%)' },
+  { name: 'Nav Sharma', role: 'UI/UX Designer & Data Analyst', desc: 'Merging creative UI/UX artistry with analytical data precision to build interfaces that are as functional as they are beautiful.', img: navImg, accent: 'hsl(150 80% 50%)' },
+  { name: 'Rajit Shikharwar', role: 'Data Analyst & Cloud DBA', desc: 'Expertly handling complex cloud database architectures and translating raw data into actionable strategic intelligence.', img: rajitImg, accent: 'hsl(25 95% 55%)' },
+  { name: 'Priyanshu Varshney', role: 'Backend & Java Developer', desc: 'Crafting scalable, high-concurrency backend solutions and enterprise-grade applications within the Java ecosystem.', img: priyanshuImg, accent: 'hsl(0 80% 60%)' },
 ];
 
 function TeamCard({ name, role, desc, img, accent, index }: { name: string; role: string; desc: string; img: string; accent: string; index: number }) {
