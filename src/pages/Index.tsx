@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LoadingScreen from '../components/LoadingScreen';
 import CustomCursor from '../components/CustomCursor';
 import ScrollProgress from '../components/ScrollProgress';
+import FloatingCommandBar from '../components/FloatingCommandBar';
 import HeroSection from '../components/sections/HeroSection';
 import AboutSection from '../components/sections/AboutSection';
 import ServicesSection from '../components/sections/ServicesSection';
@@ -66,9 +67,12 @@ export default function Index() {
         <>
           <ScrollProgress />
           <CustomCursor />
+          <FloatingCommandBar />
           <main>
             {/* Chapter 1: Hero */}
-            <HeroSection />
+            <div id="top">
+              <HeroSection />
+            </div>
 
             <ScrollMarquee words={['INNOVATE', 'CREATE', 'BUILD', 'DISRUPT', 'TRANSFORM']} direction="left" />
 
@@ -76,14 +80,18 @@ export default function Index() {
             <ScrollRevealText text="Our Story" subtitle="Every revolution begins with a spark" />
 
             {/* Chapter 2: About */}
-            <AboutSection />
+            <div id="about">
+              <AboutSection />
+            </div>
 
             <StoryDivider />
             <ChapterMarker number="02" label="Capabilities" />
             <ScrollRevealText text="Our Craft" subtitle="Where technology meets artistry" />
 
             {/* Chapter 3: Services */}
-            <ServicesSection />
+            <div id="services">
+              <ServicesSection />
+            </div>
 
             <StoryDivider />
             <ScrollMarquee words={['DESIGN', 'DEVELOP', 'DEPLOY', 'ITERATE', 'SCALE']} direction="right" />
@@ -92,20 +100,26 @@ export default function Index() {
             <ScrollRevealText text="Our Work" subtitle="Projects that define the future" />
 
             {/* Chapter 4: Projects */}
-            <ProjectsSection />
+            <div id="projects">
+              <ProjectsSection />
+            </div>
 
             <StoryDivider />
             <ChapterMarker number="04" label="People" />
             <ScrollRevealText text="The Team" subtitle="The minds behind the thunder" />
 
             {/* Chapter 5: Team */}
-            <TeamSection />
+            <div id="team">
+              <TeamSection />
+            </div>
 
             <StoryDivider />
             <ChapterMarker number="05" label="The Future" />
 
             {/* CTA */}
-            <CTASection />
+            <div id="cta">
+              <CTASection />
+            </div>
           </main>
         </>
       )}
