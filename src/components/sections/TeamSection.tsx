@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Linkedin, Twitter, Globe } from 'lucide-react';
 import { RotatingCharsText } from '../StorytellingTypography';
 import vivekImg from '@/assets/vivek.jpg';
 import omImg from '@/assets/om.jpg';
@@ -13,15 +13,57 @@ import priyanshuImg from '@/assets/priyanshu.jpg';
 gsap.registerPlugin(ScrollTrigger);
 
 const team = [
-  { name: 'Vivek Kumar Verma', role: 'Team Leader • Full Stack & DevOps', desc: 'Visionary team leader and architect, bridging the gap between full-stack innovation and scalable DevOps orchestration.', img: vivekImg, accent: 'hsl(210 100% 55%)' },
-  { name: 'Om Singh', role: 'Backend & ML Engineer', desc: 'Specializing in robust backend systems and machine learning models that power intelligent, data-driven applications.', img: omImg, accent: 'hsl(270 70% 60%)' },
-  { name: 'Anuj Vashishth', role: 'Frontend Developer & Data Entry', desc: 'Designing responsive, fluid frontend interfaces while ensuring data integrity and precision through meticulous management.', img: anujImg, accent: 'hsl(190 100% 55%)' },
-  { name: 'Nav Sharma', role: 'UI/UX Designer & Data Analyst', desc: 'Merging creative UI/UX artistry with analytical data precision to build interfaces that are as functional as they are beautiful.', img: navImg, accent: 'hsl(150 80% 50%)' },
-  { name: 'Rajit Shikharwar', role: 'Data Analyst & Cloud DBA', desc: 'Expertly handling complex cloud database architectures and translating raw data into actionable strategic intelligence.', img: rajitImg, accent: 'hsl(25 95% 55%)' },
-  { name: 'Priyanshu Varshney', role: 'Backend & Java Developer', desc: 'Crafting scalable, high-concurrency backend solutions and enterprise-grade applications within the Java ecosystem.', img: priyanshuImg, accent: 'hsl(0 80% 60%)' },
+  { 
+    name: 'Vivek Kumar Verma', 
+    role: 'Team Leader • Full Stack & DevOps', 
+    desc: 'Visionary team leader and architect, bridging the gap between full-stack innovation and scalable DevOps orchestration.', 
+    img: vivekImg, 
+    accent: 'hsl(210 100% 55%)',
+    links: { github: 'https://github.com/vivekverma807', linkedin: 'https://linkedin.com/in/vivekverma807', twitter: 'https://x.com/vivekverma807', portfolio: 'https://vivek.silentthundersquad.in' }
+  },
+  { 
+    name: 'Om Singh', 
+    role: 'Backend & ML Engineer', 
+    desc: 'Specializing in robust backend systems and machine learning models that power intelligent, data-driven applications.', 
+    img: omImg, 
+    accent: 'hsl(270 70% 60%)',
+    links: { github: 'https://github.com/om-singhhh', linkedin: 'https://linkedin.com/in/om-singh-engineer', twitter: 'https://x.com/omsingh', portfolio: 'https://om.dev' }
+  },
+  { 
+    name: 'Anuj Vashishth', 
+    role: 'Frontend Developer & Data Entry', 
+    desc: 'Designing responsive, fluid frontend interfaces while ensuring data integrity and precision through meticulous management.', 
+    img: anujImg, 
+    accent: 'hsl(190 100% 55%)',
+    links: { github: 'https://github.com/anujvashishth', linkedin: 'https://linkedin.com/in/anuj-vashishtha-b16667296', portfolio: 'https://anuj.silentthundersquad.in' }
+  },
+  { 
+    name: 'Nav Sharma', 
+    role: 'UI/UX Designer & Data Analyst', 
+    desc: 'Merging creative UI/UX artistry with analytical data precision to build interfaces that are as functional as they are beautiful.', 
+    img: navImg, 
+    accent: 'hsl(150 80% 50%)',
+    links: { github: 'https://github.com/navsharma15', linkedin: 'https://linkedin.com/in/nav-sharma', portfolio: 'https://nav.silentthundersquad.in' }
+  },
+  { 
+    name: 'Rajit Shikharwar', 
+    role: 'Data Analyst & Cloud DBA', 
+    desc: 'Expertly handling complex cloud database architectures and translating raw data into actionable strategic intelligence.', 
+    img: rajitImg, 
+    accent: 'hsl(25 95% 55%)',
+    links: { github: 'https://github.com/rajit-sikharwar', linkedin: 'https://linkedin.com/in/rajit-sikharwar/', twitter: 'https://x.com/rajit8279', portfolio: 'https://rajit.silentthundersquad.in' }
+  },
+  { 
+    name: 'Priyanshu Varshney', 
+    role: 'Backend & Java Developer', 
+    desc: 'Crafting scalable, high-concurrency backend solutions and enterprise-grade applications within the Java ecosystem.', 
+    img: priyanshuImg, 
+    accent: 'hsl(0 80% 60%)',
+    links: { github: 'https://github.com/dev-priyanshu5191', linkedin: 'https://linkedin.com/in/priyanshu5191', twitter: 'https://x.com/priyanshu5191', portfolio: 'https://priyanshu.silentthundersquad.in' }
+  },
 ];
 
-function TeamCard({ name, role, desc, img, accent, index }: { name: string; role: string; desc: string; img: string; accent: string; index: number }) {
+function TeamCard({ name, role, desc, img, accent, index, links }: { name: string; role: string; desc: string; img: string; accent: string; index: number; links: { github: string; linkedin: string; twitter: string; portfolio: string } }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -108,21 +150,25 @@ function TeamCard({ name, role, desc, img, accent, index }: { name: string; role
         <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: accent }}>
           {role}
         </p>
-        <p className="text-muted-foreground text-sm leading-relaxed mb-4">{desc}</p>
+        <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">{desc}</p>
 
         <div className="flex gap-3 pt-3 border-t border-border/50">
           {[
-            { Icon: Github, label: 'GitHub' },
-            { Icon: Linkedin, label: 'LinkedIn' },
-            { Icon: Twitter, label: 'Twitter' },
-          ].map(({ Icon, label }) => (
+            { Icon: Github, label: 'GitHub', href: links.github },
+            { Icon: Linkedin, label: 'LinkedIn', href: links.linkedin },
+            { Icon: Twitter, label: 'Twitter', href: links.twitter },
+            { Icon: Globe, label: 'Portfolio', href: links.portfolio },
+          ].map(({ Icon, label, href }) => (
             <a
               key={label}
-              href="#"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={`${name} ${label}`}
               className="w-9 h-9 rounded-full glass flex items-center justify-center text-muted-foreground hover:text-foreground transition-all hover:scale-110"
               onMouseEnter={(e) => { e.currentTarget.style.color = accent; e.currentTarget.style.borderColor = accent; }}
               onMouseLeave={(e) => { e.currentTarget.style.color = ''; e.currentTarget.style.borderColor = ''; }}
+              onClick={(e) => e.stopPropagation()}
             >
               <Icon className="w-4 h-4" />
             </a>
