@@ -12,11 +12,11 @@ import arcRealityImg from '@/assets/project-arcreality.jpg';
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { title: 'NeuralVault', desc: 'AI-powered knowledge management platform', tag: 'Machine Learning', color: '#3b82f6', image: neuralVaultImg, demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'CipherLink', desc: 'End-to-end encrypted communication network', tag: 'Security', color: '#8b5cf6', image: cipherLinkImg, demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'QuantumDash', desc: 'Real-time analytics dashboard for enterprises', tag: 'Analytics', color: '#06b6d4', image: quantumDashImg, demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981', image: ecoSphereImg, demo: 'https://example.com', github: 'https://github.com' },
-  { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b', image: arcRealityImg, demo: 'https://example.com', github: 'https://github.com' },
+  { title: 'Arovia', desc: 'The AI-Powered Doctor Recommendation System helps you quickly find the right doctor based on your symptoms, location, and preferences. Using smart AI, it gives personalized suggestions so you can get the best care without wasting time.', tag: 'Machine Learning', color: '#3b82f6', image: neuralVaultImg, demo: 'https://arovia.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/Arovia' },
+  { title: 'Bill Vault', desc: 'Bill Vault is a smart platform that helps you easily store and manage your bills, receipts, and warranties in one place. With features like automatic scanning, warranty tracking, and timely reminders, it keeps everything organized so you never miss important details.', tag: 'Security', color: '#8b5cf6', image: cipherLinkImg, demo: 'https://billvault.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/Bill-Vault' },
+  { title: 'GitHub Profile README Generator', desc: 'GitHub Profile README Generator is a smart tool that helps developers create clean, professional, and attractive GitHub profile READMEs in minutes. It simplifies the process by generating well-structured content, allowing users to showcase their skills, projects, and achievements effortlessly.', tag: 'Automation', color: '#06b6d4', image: quantumDashImg, demo: 'https://generator.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/GitHub-Profile-README-Generator' },
+  // { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981', image: ecoSphereImg, demo: 'https://example.com', github: 'https://github.com' },
+  // { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b', image: arcRealityImg, demo: 'https://example.com', github: 'https://github.com' },
 ];
 
 export default function ProjectsSection() {
