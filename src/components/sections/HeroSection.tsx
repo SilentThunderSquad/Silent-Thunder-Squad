@@ -75,21 +75,21 @@ export default function HeroSection() {
 
         <p
           ref={taglineRef}
-          className="text-xs md:text-sm uppercase tracking-[0.4em] text-primary mb-6 font-light text-center"
+          className="text-fluid-tagline uppercase tracking-[0.4em] text-primary mb-6 font-light text-center"
         >
           Est. 2024 — Innovation Collective
         </p>
 
         <div ref={titleRef} style={{ perspective: '800px' }} className="w-full flex justify-center">
           <h1
-            className="font-heading font-bold tracking-tight leading-[1.1] mb-8 neon-text text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl whitespace-nowrap text-center mx-auto"
+            className="font-display font-bold mb-8 neon-text text-fluid-hero text-center mx-auto max-w-[14ch] sm:max-w-none sm:whitespace-nowrap"
           >
             Silent Thunder Squad
           </h1>
         </div>
 
         <div ref={subtitleRef}>
-          <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-fluid-lead text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
             Building Real-World Solutions with Innovation
           </p>
         </div>
