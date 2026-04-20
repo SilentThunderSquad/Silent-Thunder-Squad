@@ -132,7 +132,7 @@ export default function AboutSection() {
       <AmbientDots />
       <div className="max-w-6xl mx-auto">
         <div ref={headingRef}>
-          <h2 className="font-heading text-4xl md:text-5xl font-bold mb-20 gradient-text text-center">
+          <h2 className="font-heading text-5xl md:text-7xl font-bold mb-24 gradient-text text-center">
             Who We Are
           </h2>
         </div>
@@ -144,10 +144,10 @@ export default function AboutSection() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
-          <ScrollCounter value={50} label="Projects Shipped" suffix="+" />
+          <ScrollCounter value={3} label="Projects Done" suffix="+" />
           <ScrollCounter value={6} label="Team Members" />
           <ScrollCounter value={12} label="Technologies" suffix="+" />
-          <ScrollCounter value={99} label="Client Satisfaction" suffix="%" />
+          <ScrollCounter value={99} label="Our Satisfaction" suffix="%" />
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
