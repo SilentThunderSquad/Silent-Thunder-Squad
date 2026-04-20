@@ -15,8 +15,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        heading: ['Bricolage Grotesque', 'Space Grotesk', 'sans-serif'],
-        display: ['Bricolage Grotesque', 'sans-serif'],
+        heading: ['Space Grotesk', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
