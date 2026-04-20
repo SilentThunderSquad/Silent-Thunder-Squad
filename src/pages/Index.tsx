@@ -64,6 +64,7 @@ export default function Index() {
       <LoadingScreen onComplete={onLoadComplete} />
       {loaded && (
         <>
+          <ScrollProgress />
           <CustomCursor />
           <main>
             {/* Chapter 1: Hero */}
