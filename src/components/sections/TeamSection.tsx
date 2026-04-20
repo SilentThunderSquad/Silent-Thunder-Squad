@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, Linkedin, Twitter, Globe } from 'lucide-react';
+import { Github, Linkedin, Twitter, Globe, Sparkles } from 'lucide-react';
 import { RotatingCharsText } from '../StorytellingTypography';
 import vivekImg from '@/assets/vivek.jpg';
 import omImg from '@/assets/om.jpg';
@@ -15,10 +15,11 @@ gsap.registerPlugin(ScrollTrigger);
 const team = [
   { 
     name: 'Vivek Kumar Verma', 
-    role: 'Team Leader • Full Stack & DevOps', 
+    role: 'Full Stack & DevOps', 
     desc: 'Visionary team leader and architect, bridging the gap between full-stack innovation and scalable DevOps orchestration.', 
     img: vivekImg, 
     accent: 'hsl(210 100% 55%)',
+    isLeader: true,
     links: { github: 'https://github.com/vivekverma807', linkedin: 'https://linkedin.com/in/vivekverma807', twitter: 'https://x.com/vivekverma807', portfolio: 'https://vivek.silentthundersquad.in' }
   },
   { 
@@ -63,7 +64,7 @@ const team = [
   },
 ];
 
-function TeamCard({ name, role, desc, img, accent, index, links }: { name: string; role: string; desc: string; img: string; accent: string; index: number; links: { github: string; linkedin: string; twitter: string; portfolio: string } }) {
+function TeamCard({ name, role, desc, img, accent, index, links, isLeader }: { name: string; role: string; desc: string; img: string; accent: string; index: number; links: { github: string; linkedin: string; twitter: string; portfolio: string }; isLeader?: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,21 +84,34 @@ function TeamCard({ name, role, desc, img, accent, index, links }: { name: strin
   return (
     <div
       ref={cardRef}
-      className="team-card glass hover-lift rounded-2xl overflow-hidden group cursor-pointer"
+      className="team-card glass hover-lift rounded-2xl overflow-hidden group cursor-pointer h-full flex flex-col"
       style={{
-        border: `1px solid ${accent}30`,
+        border: `1px solid ${isLeader ? accent : accent + '30'}`,
+        boxShadow: isLeader ? `0 0 20px ${accent}20` : '',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.boxShadow = `0 24px 60px -20px ${accent}55, 0 0 0 1px ${accent}80`;
         e.currentTarget.style.borderColor = `${accent}80`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = '';
-        e.currentTarget.style.borderColor = `${accent}30`;
+        e.currentTarget.style.boxShadow = isLeader ? `0 0 20px ${accent}20` : '';
+        e.currentTarget.style.borderColor = isLeader ? accent : `${accent}30`;
       }}
     >
       {/* Image area */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+      <div className="relative aspect-[4/5] overflow-hidden bg-muted flex-shrink-0">
+        {isLeader && (
+          <div className="absolute top-4 left-4 z-20">
+            <div 
+              className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg backdrop-blur-md border border-white/20 flex items-center gap-1.5"
+              style={{ background: accent, color: 'white' }}
+            >
+              <Sparkles className="w-3 h-3 fill-white" />
+              The Lead
+            </div>
+          </div>
+        )}
+        
         {/* Color layer (revealed on hover) */}
         <img
           src={img}
@@ -145,14 +159,33 @@ function TeamCard({ name, role, desc, img, accent, index, links }: { name: strin
       </div>
 
       {/* Content */}
-      <div className="p-5 sm:p-6 -mt-2">
-        <h3 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-1">{name}</h3>
-        <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: accent }}>
+      <div className="p-5 sm:p-6 -mt-2 flex flex-col flex-1">
+        {isLeader && (
+          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] mb-2 opacity-70" style={{ color: accent }}>
+            Team Leader
+          </span>
+        )}
+        <h3 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-1 flex items-center gap-2">
+          {name}
+          {isLeader && (
+            <div className="relative group/sparkle">
+              <Sparkles className="w-5 h-5 text-yellow-500 fill-yellow-500/20 transition-transform duration-500 group-hover/sparkle:rotate-12" />
+              <div className="absolute inset-0 blur-lg bg-yellow-500/40 opacity-0 group-hover/sparkle:opacity-100 transition-opacity pointer-events-none" />
+            </div>
+          )}
+        </h3>
+        <p 
+          className={`text-xs sm:text-sm font-semibold uppercase tracking-wider mb-3 ${isLeader ? 'flex items-center gap-2' : ''}`} 
+          style={{ color: accent }}
+        >
+          {isLeader && <span className="w-4 h-[1px]" style={{ background: accent }} />}
           {role}
         </p>
-        <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">{desc}</p>
+        <div className="flex-1">
+          <p className="text-muted-foreground text-sm leading-relaxed mb-4">{desc}</p>
+        </div>
 
-        <div className="flex gap-3 pt-3 border-t border-border/50">
+        <div className="flex gap-3 pt-3 border-t border-border/50 mt-auto">
           {[
             { Icon: Github, label: 'GitHub', href: links.github },
             { Icon: Linkedin, label: 'LinkedIn', href: links.linkedin },
