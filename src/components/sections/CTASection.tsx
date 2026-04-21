@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
+import ThunderParticles from '../ThunderParticles';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,11 +42,13 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section className="py-40 px-6 relative overflow-hidden">
+    <section className="py-40 px-6 relative overflow-hidden min-h-[90vh] flex items-center">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse at center, hsl(210 100% 55% / 0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse at center, hsl(var(--neon-purple) / 0.12) 0%, hsl(var(--neon-blue) / 0.06) 40%, transparent 75%)',
       }} />
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      {/* Interactive thunder particle field — hover to morph into a lightning bolt */}
+      <ThunderParticles className="pointer-events-auto" />
+      <div className="max-w-4xl mx-auto text-center relative z-10 pointer-events-none">
         <div ref={headingWrapRef}>
           <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-10 neon-text">
             Join the Thunder
@@ -53,7 +56,7 @@ export default function CTASection() {
         </div>
         <button
           ref={btnRef}
-          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer"
+          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer pointer-events-auto"
           style={{
             background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
             color: 'hsl(var(--primary-foreground))',
