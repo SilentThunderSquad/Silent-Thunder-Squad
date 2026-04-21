@@ -51,7 +51,7 @@ export default function ServicesSection() {
   });
 
   return (
-    <section className="py-32 px-6 relative">
+    <section id="services" aria-label="Web development services offered by Silent Thunder Squad" className="py-32 px-6 relative">
       <AmbientDots />
       <div className="max-w-6xl mx-auto">
         <div className="mb-16">
