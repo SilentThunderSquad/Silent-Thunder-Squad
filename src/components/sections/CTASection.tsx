@@ -42,39 +42,50 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section className="py-40 px-6 relative overflow-hidden min-h-[90vh] flex items-center">
-      <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse at center, hsl(var(--neon-purple) / 0.12) 0%, hsl(var(--neon-blue) / 0.06) 40%, transparent 75%)',
-      }} />
-      {/* Interactive thunder particle field — hover to morph into a lightning bolt */}
-      <ThunderParticles className="pointer-events-auto" />
-      <div className="max-w-4xl mx-auto text-center relative z-10 pointer-events-none">
-        <div ref={headingWrapRef}>
-          <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-10 neon-text">
-            Join the Thunder
-          </h2>
-        </div>
-        <button
-          ref={btnRef}
-          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer pointer-events-auto"
+    <>
+      <section className="py-32 md:py-40 px-6 relative overflow-hidden min-h-[90vh] flex items-center justify-center">
+        {/* Radial background glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
-            color: 'hsl(var(--primary-foreground))',
+            background:
+              'radial-gradient(ellipse at center, hsl(var(--neon-purple) / 0.12) 0%, hsl(var(--neon-blue) / 0.06) 40%, transparent 75%)',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.boxShadow = '0 0 40px hsl(var(--primary) / 0.6), 0 0 80px hsl(var(--accent) / 0.3)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.boxShadow = '';
-          }}
-        >
-          Get In Touch
-        </button>
-      </div>
+        />
 
-      <footer className="mt-32 text-center text-muted-foreground text-sm">
+        {/* Interactive thunder particle field — sits behind content but captures hover */}
+        <ThunderParticles className="z-0" />
+
+        {/* Content layer */}
+        <div className="max-w-4xl mx-auto text-center relative z-10 pointer-events-none">
+          <div ref={headingWrapRef}>
+            <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-10 neon-text">
+              Join the Thunder
+            </h2>
+          </div>
+          <button
+            ref={btnRef}
+            className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer pointer-events-auto"
+            style={{
+              background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
+              color: 'hsl(var(--primary-foreground))',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow =
+                '0 0 40px hsl(var(--primary) / 0.6), 0 0 80px hsl(var(--accent) / 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '';
+            }}
+          >
+            Get In Touch
+          </button>
+        </div>
+      </section>
+
+      <footer className="relative z-10 border-t border-border/40 py-8 px-6 text-center text-muted-foreground text-sm">
         <p>© 2026 Silent Thunder Squad. All rights reserved.</p>
       </footer>
-    </section>
+    </>
   );
 }
