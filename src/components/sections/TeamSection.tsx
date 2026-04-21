@@ -228,7 +228,7 @@ function TeamCard({ name, role, desc, img, accent, index, links, isLeader, hover
           {/* Grayscale + slight blur (default) */}
           <img
             src={img}
-            alt={`${name} - ${role}`}
+            alt={`${name} — ${role} at Silent Thunder Squad, student developer team India`}
             loading="lazy"
             width={768}
             height={1024}
@@ -363,7 +363,7 @@ export default function TeamSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-24 sm:py-32 px-4 sm:px-6">
+    <section id="team" aria-label="Meet the team behind Silent Thunder Squad" className="py-24 sm:py-32 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 sm:mb-16 text-center">
           <RotatingCharsText text="The Squad" />
