@@ -79,7 +79,7 @@ export default function CTASection() {
         >
           Get In Touch
         </button>
-        <p className="mt-10 text-muted-foreground text-sm">
+        <p className="mt-32 text-muted-foreground text-sm">
           © 2026 Silent Thunder Squad. All rights reserved.
         </p>
       </div>
