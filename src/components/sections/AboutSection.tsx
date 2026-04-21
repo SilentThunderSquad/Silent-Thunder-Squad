@@ -128,7 +128,7 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section className="relative py-32 px-6">
+    <section id="about" aria-label="About Silent Thunder Squad" className="relative py-32 px-6">
       <AmbientDots />
       <div className="max-w-6xl mx-auto">
         <div ref={headingRef}>
@@ -136,6 +136,7 @@ export default function AboutSection() {
             Who We Are
           </h2>
         </div>
+        <p className="sr-only">Silent Thunder Squad is a student-led developer team in India specializing in affordable web development, full-stack solutions, and modern UI/UX design for startups and small businesses.</p>
 
         <div className="mb-24">
           <ScrollParagraph
