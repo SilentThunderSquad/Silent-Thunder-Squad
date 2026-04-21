@@ -10,5 +10,16 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
 User-agent: *
 Allow: /
+Disallow: /assets/
+Disallow: /src/
+
+# Sitemap
+Sitemap: https://silentthundersquad.in/sitemap.xml
+
+# Host
+Host: https://silentthundersquad.in
