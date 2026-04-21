@@ -95,23 +95,65 @@ function sampleBoltPoints(count: number, scale: number): Float32Array {
 
 interface ParticleSystemProps {
   count: number;
-  morph: boolean;
 }
 
-function ParticleSystem({ count, morph }: ParticleSystemProps) {
+function ParticleSystem({ count }: ParticleSystemProps) {
   const pointsRef = useRef<THREE.Points>(null);
-  const { size } = useThree();
+  const { camera, gl } = useThree();
 
-  // Mouse in NDC for subtle attraction
+  // Mouse in NDC + world-space position for proximity detection
   const ndc = useRef({ x: 0, y: 0 });
+  const worldMouse = useRef(new THREE.Vector3(0, 0, 0));
+  const autoMorph = useRef(false);
+
   useEffect(() => {
+    const canvas = gl.domElement;
+
     const onMove = (e: MouseEvent) => {
-      ndc.current.x = (e.clientX / size.width) * 2 - 1;
-      ndc.current.y = -(e.clientY / size.height) * 2 + 1;
+      // Get canvas bounds — accounts for scroll position and canvas placement
+      const rect = canvas.getBoundingClientRect();
+
+      // Mouse position relative to the canvas (not the viewport)
+      const relX = e.clientX - rect.left;
+      const relY = e.clientY - rect.top;
+
+      // Convert to NDC (-1 to +1) relative to canvas
+      ndc.current.x = (relX / rect.width) * 2 - 1;
+      ndc.current.y = -(relY / rect.height) * 2 + 1;
+
+      // Check if mouse is actually over the canvas
+      const isOverCanvas =
+        relX >= 0 && relX <= rect.width &&
+        relY >= 0 && relY <= rect.height;
+
+      if (!isOverCanvas) {
+        autoMorph.current = false;
+        return;
+      }
+
+      // Unproject to world z=0 plane
+      const v = new THREE.Vector3(ndc.current.x, ndc.current.y, 0.5);
+      v.unproject(camera);
+      const dir = v.sub(camera.position).normalize();
+      const d = -camera.position.z / dir.z;
+      worldMouse.current.copy(camera.position.clone().add(dir.multiplyScalar(d)));
+
+      // Morph only when mouse is near the bolt center (radius ~3.5 matches bolt scale)
+      const dist = Math.sqrt(worldMouse.current.x ** 2 + worldMouse.current.y ** 2);
+      autoMorph.current = dist < 3.5;
     };
+
+    const onLeave = () => {
+      autoMorph.current = false;
+    };
+
     window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, [size]);
+    canvas.addEventListener('mouseleave', onLeave);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      canvas.removeEventListener('mouseleave', onLeave);
+    };
+  }, [camera, gl]);
 
   // Geometry buffers
   const { positions, basePositions, targetPositions, drift } = useMemo(() => {
@@ -175,9 +217,9 @@ function ParticleSystem({ count, morph }: ParticleSystemProps) {
     const t = state.clock.elapsedTime;
     const dt = Math.min(delta, 0.05);
 
-    // Ease morph progress
-    const target = morph ? 1 : 0;
-    morphProgress.current += (target - morphProgress.current) * Math.min(1, dt * 3);
+    // Ease morph progress — driven by proximity, not hover
+    const morphTarget = autoMorph.current ? 1 : 0;
+    morphProgress.current += (morphTarget - morphProgress.current) * Math.min(1, dt * 3);
     const mp = morphProgress.current;
 
     // Pulse only when (mostly) formed
@@ -276,7 +318,6 @@ interface ThunderParticlesProps {
 
 export default function ThunderParticles({ className = '' }: ThunderParticlesProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [morph, setMorph] = useState(false);
   const [count, setCount] = useState(1500);
 
   useEffect(() => {
@@ -295,10 +336,6 @@ export default function ThunderParticles({ className = '' }: ThunderParticlesPro
     <div
       ref={wrapRef}
       className={`absolute inset-0 ${className}`}
-      onMouseEnter={() => setMorph(true)}
-      onMouseLeave={() => setMorph(false)}
-      onTouchStart={() => setMorph(true)}
-      onTouchEnd={() => setMorph(false)}
     >
       <Canvas
         camera={{ position: [0, 0, 12], fov: 55 }}
@@ -306,7 +343,7 @@ export default function ThunderParticles({ className = '' }: ThunderParticlesPro
         gl={{ alpha: true, antialias: true }}
         style={{ background: 'transparent' }}
       >
-        <ParticleSystem count={count} morph={morph} />
+        <ParticleSystem count={count} />
       </Canvas>
     </div>
   );
