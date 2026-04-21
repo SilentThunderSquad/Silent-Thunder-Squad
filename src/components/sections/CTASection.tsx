@@ -56,7 +56,7 @@ export default function CTASection() {
         </div>
         <button
           ref={btnRef}
-          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer"
+          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer pointer-events-auto"
           style={{
             background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
             color: 'hsl(var(--primary-foreground))',
