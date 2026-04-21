@@ -5,7 +5,22 @@ const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // Set page title for SEO
+    document.title = "Page Not Found — Silent Thunder Squad";
+
+    // Add noindex meta tag to prevent 404 pages from being indexed
+    const metaRobots = document.createElement("meta");
+    metaRobots.name = "robots";
+    metaRobots.content = "noindex, nofollow";
+    document.head.appendChild(metaRobots);
+
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+
+    return () => {
+      // Clean up: restore original title and remove noindex meta
+      document.title = "Silent Thunder Squad | Affordable Web Development Company India";
+      document.head.removeChild(metaRobots);
+    };
   }, [location.pathname]);
 
   return (
