@@ -65,7 +65,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+    <section id="hero" aria-label="Hero — Silent Thunder Squad" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <ParticleField />
       <div className="absolute inset-0 pointer-events-none" style={{
         background: 'radial-gradient(circle at center, transparent 0%, hsl(var(--background) / 0.1) 50%, hsl(var(--background) / 0.3) 100%)',
@@ -95,6 +95,7 @@ export default function HeroSection() {
           >
             Silent Thunder Squad
           </h1>
+          <p className="sr-only">Affordable web development company India — Student-led developer team offering custom website development, UI/UX design, and full-stack solutions for startups.</p>
         </div>
 
         <div ref={subtitleRef}>
