@@ -236,8 +236,8 @@ function ParticleSystem({ count, morph }: ParticleSystemProps) {
 
     // Material opacity boost during morph
     const mat = pointsRef.current.material as THREE.PointsMaterial;
-    mat.opacity = 0.7 + mp * 0.3;
-    mat.size = 0.18 + mp * 0.06;
+    mat.opacity = 0.85 + mp * 0.15;
+    mat.size = 0.16 + mp * 0.05;
   });
 
   return (
@@ -257,13 +257,13 @@ function ParticleSystem({ count, morph }: ParticleSystemProps) {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.2}
+        size={0.18}
         map={sprite}
         vertexColors
         transparent
-        opacity={0.8}
+        opacity={0.9}
         depthWrite={false}
-        blending={THREE.AdditiveBlending}
+        blending={THREE.NormalBlending}
         sizeAttenuation
       />
     </points>
