@@ -167,9 +167,6 @@ function TeamCard({ name, role, desc, img, accent, index, links, isLeader, hover
 
   const handleMouseLeave = () => {
     setHoveredIndex(null);
-    if (innerRef.current) {
-      gsap.to(innerRef.current, { rotateY: 0, rotateX: 0, duration: 0.7, ease: 'power3.out' });
-    }
     if (cardRef.current) {
       gsap.to(cardRef.current, {
         scale: 1,
