@@ -64,7 +64,7 @@ const team = [
   },
 ];
 
-function TeamCard({ name, role, desc, img, accent, index, links, isLeader }: { name: string; role: string; desc: string; img: string; accent: string; index: number; links: { github: string; linkedin: string; twitter: string; portfolio: string }; isLeader?: boolean }) {
+function TeamCard({ name, role, desc, img, accent, index, links, isLeader }: { name: string; role: string; desc: string; img: string; accent: string; index: number; links: { github: string; linkedin: string; twitter?: string; portfolio: string }; isLeader?: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

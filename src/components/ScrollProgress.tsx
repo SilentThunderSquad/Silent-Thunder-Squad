@@ -1,55 +1,54 @@
 import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function ScrollProgress() {
-  const progressRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!progressBarRef.current) return;
+    const bar = progressBarRef.current;
+    if (!bar) return;
 
-    // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const update = () => {
+      rafRef.current = null;
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop || 0;
+      const max = (doc.scrollHeight - window.innerHeight) || 1;
+      const progress = Math.min(1, Math.max(0, scrollTop / max));
+      bar.style.transform = `scaleX(${progress})`;
+    };
+
+    const onScroll = () => {
+      if (rafRef.current != null) return;
+      rafRef.current = requestAnimationFrame(update);
+    };
+
     if (prefersReducedMotion) {
-      // Just show full bar without animation
-      gsap.set(progressBarRef.current, { scaleX: 1 });
+      bar.style.transform = 'scaleX(1)';
       return;
     }
 
-    // Create scroll-triggered progress animation
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        progressBarRef.current,
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: document.body,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0.3,
-          },
-        }
-      );
-    });
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
 
-    return () => ctx.revert();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
     <div
-      ref={progressRef}
-      className="fixed top-0 left-0 right-0 z-[100] h-1 bg-transparent"
+      className="fixed top-0 left-0 right-0 z-[100] h-1 bg-transparent pointer-events-none"
       aria-hidden="true"
     >
       <div
         ref={progressBarRef}
-        className="h-full origin-left bg-gradient-to-r from-[#2563EB] via-[#7C3AED] to-[#22D3EE]"
-        style={{ transform: 'scaleX(0)' }}
+        className="h-full w-full origin-left bg-gradient-to-r from-[#2563EB] via-[#7C3AED] to-[#22D3EE] will-change-transform"
+        style={{ transform: 'scaleX(0)', transition: 'transform 0.1s linear' }}
       />
     </div>
   );
