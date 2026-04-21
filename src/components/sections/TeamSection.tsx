@@ -67,11 +67,11 @@ const team = [
 
 type TeamMember = (typeof team)[number];
 
-interface TeamCardProps extends TeamMember {
+type TeamCardProps = TeamMember & {
   index: number;
   hoveredIndex: number | null;
   setHoveredIndex: (i: number | null) => void;
-}
+};
 
 function TeamCard({ name, role, desc, img, accent, index, links, isLeader, hoveredIndex, setHoveredIndex }: TeamCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
