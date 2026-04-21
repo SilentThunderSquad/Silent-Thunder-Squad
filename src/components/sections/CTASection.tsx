@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function CTASection() {
   const headingWrapRef = useRef<HTMLDivElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const splits: SplitType[] = [];
@@ -42,7 +42,7 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section className="py-32 md:py-40 px-6 relative overflow-hidden min-h-[90vh] flex items-center justify-center">
+    <section id="contact" aria-label="Contact Silent Thunder Squad for web development services" className="py-32 md:py-40 px-6 relative overflow-hidden min-h-[90vh] flex items-center justify-center">
       {/* Radial background glow */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -62,9 +62,10 @@ export default function CTASection() {
             Join the Thunder
           </h2>
         </div>
-        <button
+        <a
           ref={btnRef}
-          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer pointer-events-auto"
+          href="mailto:contact@silentthundersquad.in"
+          className="btn-smooth px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wide animate-pulse-glow cursor-pointer pointer-events-auto inline-block no-underline"
           style={{
             background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
             color: 'hsl(var(--primary-foreground))',
@@ -78,10 +79,12 @@ export default function CTASection() {
           }}
         >
           Get In Touch
-        </button>
-        <p className="mt-32 text-muted-foreground text-sm">
-          © 2026 Silent Thunder Squad. All rights reserved.
-        </p>
+        </a>
+        <footer className="mt-32">
+          <p className="text-muted-foreground text-sm">
+            © 2026 Silent Thunder Squad. All rights reserved.
+          </p>
+        </footer>
       </div>
     </section>
   );
