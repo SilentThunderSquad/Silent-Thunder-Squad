@@ -139,27 +139,18 @@ function TeamCard({ name, role, desc, img, accent, index, links, isLeader, hover
     return () => ctx.revert();
   }, [index, isLeader, accent]);
 
-  // 3D tilt — disabled on mobile
+  // Mouse move — only updates scan-line position (3D tilt removed for cleaner look)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isMobile || !innerRef.current || !cardRef.current) return;
+    if (isMobile || !cardRef.current || !scanRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    gsap.to(innerRef.current, {
-      rotateY: x * 10,
-      rotateX: -y * 10,
-      duration: 0.6,
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    gsap.to(scanRef.current, {
+      '--mx': `${x * 100}%`,
+      '--my': `${y * 100}%`,
+      duration: 0.4,
       ease: 'power2.out',
-      transformPerspective: 1000,
-    });
-    if (scanRef.current) {
-      gsap.to(scanRef.current, {
-        '--mx': `${(x + 0.5) * 100}%`,
-        '--my': `${(y + 0.5) * 100}%`,
-        duration: 0.4,
-        ease: 'power2.out',
-      } as gsap.TweenVars);
-    }
+    } as gsap.TweenVars);
   };
 
   const handleMouseEnter = () => {
