@@ -131,14 +131,15 @@ function ParticleSystem({ count, morph }: ParticleSystemProps) {
     return { positions, basePositions: base, targetPositions: target, drift };
   }, [count]);
 
-  // Per-particle color (cyan -> violet -> white)
+  // Per-particle color — deep, saturated tones that pop on a light background
   const colors = useMemo(() => {
     const arr = new Float32Array(count * 3);
     const palette = [
-      new THREE.Color('#22d3ee'), // cyan
-      new THREE.Color('#a78bfa'), // violet
-      new THREE.Color('#ffffff'), // white
-      new THREE.Color('#60a5fa'), // blue
+      new THREE.Color('#6d28d9'), // deep violet
+      new THREE.Color('#2563eb'), // electric blue
+      new THREE.Color('#db2777'), // magenta
+      new THREE.Color('#0891b2'), // dark cyan
+      new THREE.Color('#7c3aed'), // purple
     ];
     for (let i = 0; i < count; i++) {
       const c = palette[Math.floor(Math.random() * palette.length)];
