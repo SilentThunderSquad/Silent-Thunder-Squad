@@ -62,7 +62,7 @@ function OrbitingParticles({ count = 80 }: { count?: number }) {
   const pointsRef = useRef<THREE.Points>(null);
   const { mouse } = useThree();
 
-  const { positions, speeds, radii, offsets } = useMemo(() => {
+  const { geometry, speeds, radii, offsets } = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const speeds = new Float32Array(count);
     const radii = new Float32Array(count);
@@ -75,13 +75,17 @@ function OrbitingParticles({ count = 80 }: { count?: number }) {
       positions[i * 3 + 1] = (Math.random() - 0.5) * 2;
       positions[i * 3 + 2] = 0;
     }
-    return { positions, speeds, radii, offsets };
+    const geometry = new THREE.BufferGeometry();
+    const posAttr = new THREE.BufferAttribute(positions, 3);
+    posAttr.setUsage(THREE.DynamicDrawUsage);
+    geometry.setAttribute('position', posAttr);
+    return { geometry, speeds, radii, offsets };
   }, [count]);
 
   useFrame((state) => {
     if (!pointsRef.current) return;
-    const geo = pointsRef.current.geometry as THREE.BufferGeometry;
-    const arr = (geo.attributes.position as THREE.BufferAttribute).array as Float32Array;
+    const posAttr = geometry.attributes.position as THREE.BufferAttribute;
+    const arr = posAttr.array as Float32Array;
     const t = state.clock.elapsedTime;
     for (let i = 0; i < count; i++) {
       const angle = offsets[i] + t * speeds[i];
@@ -89,15 +93,12 @@ function OrbitingParticles({ count = 80 }: { count?: number }) {
       arr[i * 3 + 1] = Math.sin(angle * 0.7) * radii[i] * 0.5 + mouse.y * 0.3;
       arr[i * 3 + 2] = Math.sin(angle) * radii[i];
     }
-    (geo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+    posAttr.needsUpdate = true;
     pointsRef.current.rotation.y = t * 0.05;
   });
 
   return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
-      </bufferGeometry>
+    <points ref={pointsRef} geometry={geometry}>
       <pointsMaterial size={0.06} color="#22d3ee" transparent opacity={0.85} sizeAttenuation depthWrite={false} />
     </points>
   );
