@@ -6,7 +6,7 @@ import ParticleField from '../ParticleField';
 export default function HeroSection() {
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
-  
+  const scrollRef = useRef<HTMLDivElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
@@ -19,6 +19,8 @@ export default function HeroSection() {
     }
 
     if (titleRef.current) {
+      // Make the title wrapper visible now that GSAP is ready to control it
+      gsap.set(titleRef.current, { visibility: 'visible' });
       const split = new SplitType(titleRef.current, { types: 'chars' });
       splits.push(split);
       if (split.chars) {
@@ -58,6 +60,11 @@ export default function HeroSection() {
       }
     }
 
+    // Fade in the scroll indicator after the main text sequence
+    if (scrollRef.current) {
+      tl.fromTo(scrollRef.current, { opacity: 0 }, { opacity: 0.3, duration: 0.8, ease: 'power2.out' }, '-=0.2');
+    }
+
     return () => {
       tl.kill();
       splits.forEach(s => s.revert());
@@ -75,12 +82,12 @@ export default function HeroSection() {
 
         <p
           ref={taglineRef}
-          className="text-fluid-tagline uppercase tracking-[0.4em] text-slate-500 mb-6 font-light text-center"
+          className="text-fluid-tagline uppercase tracking-[0.4em] text-slate-500 mb-6 font-light text-center opacity-0"
         >
           Est. 2025 — Innovation Collective
         </p>
 
-        <div ref={titleRef} className="relative w-full flex justify-center">
+        <div ref={titleRef} className="relative w-full flex justify-center" style={{ visibility: 'hidden' }}>
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 -z-10 mx-auto"
@@ -98,13 +105,13 @@ export default function HeroSection() {
           <p className="sr-only">Affordable web development company India — Student-led developer team offering custom website development, UI/UX design, and full-stack solutions for startups.</p>
         </div>
 
-        <div ref={subtitleRef}>
+        <div ref={subtitleRef} className="opacity-0">
           <p className="text-fluid-lead text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
             Building Real-World Solutions with Innovation
           </p>
         </div>
 
-        <div className="mt-16 flex flex-col items-center gap-2 animate-float opacity-30">
+        <div ref={scrollRef} className="mt-16 flex flex-col items-center gap-2 animate-float opacity-0">
           <span className="text-xs uppercase tracking-[0.3em] text-slate-400">Scroll to explore</span>
           <div className="w-px h-12 bg-slate-300" />
         </div>
