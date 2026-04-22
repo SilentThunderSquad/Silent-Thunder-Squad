@@ -58,7 +58,7 @@ export default function CTASection() {
       {/* Content layer */}
       <div className="max-w-4xl mx-auto text-center relative z-10 pointer-events-none">
         <div ref={headingWrapRef}>
-          <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-10 neon-text">
+          <h2 className="font-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-10 neon-text text-balance">
             Join the Thunder
           </h2>
         </div>
