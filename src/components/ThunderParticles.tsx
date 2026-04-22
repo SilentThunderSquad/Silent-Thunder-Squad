@@ -156,7 +156,7 @@ function ParticleSystem({ count }: ParticleSystemProps) {
   }, [camera, gl]);
 
   // Geometry buffers
-  const { positions, basePositions, targetPositions, drift } = useMemo(() => {
+  const { geometry, positions, basePositions, targetPositions, drift } = useMemo(() => {
     const base = new Float32Array(count * 3);
     const drift = new Float32Array(count * 4); // speedX, speedY, ampX, ampY
     for (let i = 0; i < count; i++) {
@@ -170,12 +170,9 @@ function ParticleSystem({ count }: ParticleSystemProps) {
     }
     const target = sampleBoltPoints(count, 3.2);
     const positions = new Float32Array(base); // current live positions
-    return { positions, basePositions: base, targetPositions: target, drift };
-  }, [count]);
 
-  // Per-particle color — deep, saturated tones that pop on a light background
-  const colors = useMemo(() => {
-    const arr = new Float32Array(count * 3);
+    // Per-particle color — deep, saturated tones that pop on a light background
+    const colorArr = new Float32Array(count * 3);
     const palette = [
       new THREE.Color('#6d28d9'), // deep violet
       new THREE.Color('#2563eb'), // electric blue
@@ -185,12 +182,25 @@ function ParticleSystem({ count }: ParticleSystemProps) {
     ];
     for (let i = 0; i < count; i++) {
       const c = palette[Math.floor(Math.random() * palette.length)];
-      arr[i * 3] = c.r;
-      arr[i * 3 + 1] = c.g;
-      arr[i * 3 + 2] = c.b;
+      colorArr[i * 3] = c.r;
+      colorArr[i * 3 + 1] = c.g;
+      colorArr[i * 3 + 2] = c.b;
     }
-    return arr;
+
+    // Build geometry imperatively to avoid React re-creating buffer attributes
+    const geometry = new THREE.BufferGeometry();
+    const posAttr = new THREE.BufferAttribute(positions, 3);
+    posAttr.setUsage(THREE.DynamicDrawUsage);
+    geometry.setAttribute('position', posAttr);
+    geometry.setAttribute('color', new THREE.BufferAttribute(colorArr, 3));
+
+    return { geometry, positions, basePositions: base, targetPositions: target, drift };
   }, [count]);
+
+  // Dispose old geometry when count changes or component unmounts
+  useEffect(() => {
+    return () => { geometry.dispose(); };
+  }, [geometry]);
 
   // Soft circular sprite for glow
   const sprite = useMemo(() => {
@@ -273,8 +283,7 @@ function ParticleSystem({ count }: ParticleSystemProps) {
       pos[i3 + 2] += (finalZ - pos[i3 + 2]) * Math.min(1, dt * 6);
     }
 
-    const geom = pointsRef.current.geometry as THREE.BufferGeometry;
-    (geom.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+    (geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
 
     // Material opacity boost during morph
     const mat = pointsRef.current.material as THREE.PointsMaterial;
@@ -283,21 +292,7 @@ function ParticleSystem({ count }: ParticleSystemProps) {
   });
 
   return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          array={positions}
-          count={count}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          array={colors}
-          count={count}
-          itemSize={3}
-        />
-      </bufferGeometry>
+    <points ref={pointsRef} geometry={geometry}>
       <pointsMaterial
         size={0.18}
         map={sprite}
