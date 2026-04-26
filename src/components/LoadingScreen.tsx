@@ -44,8 +44,8 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
           className="h-full rounded-full transition-all duration-200"
           style={{
             width: `${Math.min(progress, 100)}%`,
-            background: 'linear-gradient(90deg, hsl(210 100% 55%), hsl(270 60% 55%))',
-            boxShadow: '0 0 20px hsl(210 100% 55% / 0.5)',
+            background: 'linear-gradient(90deg, hsl(var(--neon-blue)), hsl(var(--neon-purple)))',
+            boxShadow: '0 0 20px hsl(var(--neon-blue) / 0.5)',
           }}
         />
       </div>
