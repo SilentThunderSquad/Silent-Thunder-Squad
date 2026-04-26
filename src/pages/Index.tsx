@@ -11,6 +11,7 @@ import AboutSection from '../components/sections/AboutSection';
 import ServicesSection from '../components/sections/ServicesSection';
 import ProjectsSection from '../components/sections/ProjectsSection';
 import TeamSection from '../components/sections/TeamSection';
+import TechStackSection from '../components/sections/TechStackSection';
 import CTASection from '../components/sections/CTASection';
 import { ScrollRevealText, ScrollMarquee } from '../components/StorytellingTypography';
 import { StoryDivider, ChapterMarker } from '../components/StorytellingElements';
@@ -94,6 +95,12 @@ export default function Index() {
             </div>
 
             <StoryDivider />
+
+            {/* Tech Stack – Horizontal Scroll */}
+            <div id="tech-stack">
+              <TechStackSection />
+            </div>
+
             <ScrollMarquee words={['DESIGN', 'DEVELOP', 'DEPLOY', 'ITERATE', 'SCALE']} direction="right" />
 
             <ChapterMarker number="03" label="Portfolio" />
