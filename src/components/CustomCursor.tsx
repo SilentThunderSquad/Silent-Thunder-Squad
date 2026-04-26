@@ -86,14 +86,14 @@ export default function CustomCursor() {
         ref={cursorRef}
         className="fixed top-0 left-0 w-5 h-5 rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block"
         style={{
-          background: 'radial-gradient(circle, hsl(210 100% 55% / 0.9), transparent)',
+          background: 'radial-gradient(circle, hsl(var(--neon-blue) / 0.9), transparent)',
         }}
       />
       <div
         ref={trailRef}
         className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-[9998] hidden md:block"
         style={{
-          background: 'radial-gradient(circle, hsl(270 60% 55% / 0.25), transparent)',
+          background: 'radial-gradient(circle, hsl(var(--neon-purple) / 0.25), transparent)',
         }}
       />
     </>
