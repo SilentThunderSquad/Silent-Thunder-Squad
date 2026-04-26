@@ -136,9 +136,9 @@ function TechCard({ item }: { item: TechItem }) {
       <div
         className="relative flex flex-col items-center gap-3 p-5 rounded-2xl transition-all duration-500 cursor-pointer"
         style={{
-          background: 'hsl(210 40% 98% / 0.6)',
+          background: 'hsl(var(--glass-bg) / 0.6)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid hsl(220 25% 88% / 0.4)',
+          border: '1px solid hsl(var(--glass-border) / 0.4)',
         }}
         onMouseEnter={(e) => {
           const el = e.currentTarget;
@@ -148,7 +148,7 @@ function TechCard({ item }: { item: TechItem }) {
         }}
         onMouseLeave={(e) => {
           const el = e.currentTarget;
-          el.style.borderColor = 'hsl(220 25% 88% / 0.4)';
+          el.style.borderColor = 'hsl(var(--glass-border) / 0.4)';
           el.style.boxShadow = 'none';
           el.style.transform = '';
         }}
@@ -278,8 +278,7 @@ export default function TechStackSection() {
       ref={sectionRef}
       id="tech-stack"
       aria-label="Technologies and tools used by Silent Thunder Squad"
-      className="relative overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, hsl(210 40% 98%), hsl(220 30% 96%), hsl(210 40% 98%))' }}
+      className="relative overflow-hidden bg-background"
     >
       {/* Subtle ambient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -319,7 +318,7 @@ export default function TechStackSection() {
             <h2
               className="text-fluid-h2 font-bold font-heading"
               style={{
-                background: 'linear-gradient(135deg, hsl(222 47% 10%), hsl(221 83% 53% / 0.8))',
+                background: 'linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--neon-blue) / 0.8))',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}
@@ -367,11 +366,11 @@ export default function TechStackSection() {
       {/* Fade edges */}
       <div
         className="absolute top-0 left-0 bottom-0 w-16 md:w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(90deg, hsl(210 40% 98%), transparent)' }}
+        style={{ background: 'linear-gradient(90deg, hsl(var(--background)), transparent)' }}
       />
       <div
         className="absolute top-0 right-0 bottom-0 w-16 md:w-24 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(270deg, hsl(210 40% 98%), transparent)' }}
+        style={{ background: 'linear-gradient(270deg, hsl(var(--background)), transparent)' }}
       />
     </section>
   );
