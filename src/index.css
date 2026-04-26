@@ -43,11 +43,52 @@
     --sidebar-border: 220 25% 88%;
     --sidebar-ring: 221 83% 53%;
   }
+
+  .dark {
+    --background: 224 30% 7%;
+    --foreground: 210 40% 92%;
+    --card: 224 28% 10%;
+    --card-foreground: 210 40% 92%;
+    --popover: 224 28% 10%;
+    --popover-foreground: 210 40% 92%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 224 30% 7%;
+    --secondary: 263 70% 62%;
+    --secondary-foreground: 224 30% 7%;
+    --muted: 224 20% 14%;
+    --muted-foreground: 215 20% 60%;
+    --accent: 263 70% 62%;
+    --accent-foreground: 224 30% 7%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 224 20% 18%;
+    --input: 224 20% 16%;
+    --ring: 217 91% 60%;
+
+    --neon-blue: 217 91% 60%;
+    --neon-purple: 263 70% 62%;
+    --neon-cyan: 187 85% 53%;
+    --neon-glow: 187 85% 60%;
+    --glass-bg: 224 28% 10%;
+    --glass-border: 224 20% 20%;
+
+    --sidebar-background: 224 30% 7%;
+    --sidebar-foreground: 210 40% 92%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 224 30% 7%;
+    --sidebar-accent: 263 70% 62%;
+    --sidebar-accent-foreground: 224 30% 7%;
+    --sidebar-border: 224 20% 18%;
+    --sidebar-ring: 217 91% 60%;
+  }
 }
 
 @layer base {
   * {
     @apply border-border;
+  }
+  html {
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
   body {
     @apply bg-background text-foreground;
@@ -93,11 +134,13 @@
     background: hsl(var(--glass-bg) / 0.6);
     backdrop-filter: blur(20px);
     border: 1px solid hsl(var(--glass-border) / 0.3);
+    transition: background-color 0.4s ease, border-color 0.4s ease;
   }
   .glass-strong {
     background: hsl(var(--glass-bg) / 0.8);
     backdrop-filter: blur(30px);
     border: 1px solid hsl(var(--glass-border) / 0.4);
+    transition: background-color 0.4s ease, border-color 0.4s ease;
   }
   .neon-glow {
     box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.3), 0 0 60px hsl(var(--neon-blue) / 0.1);
