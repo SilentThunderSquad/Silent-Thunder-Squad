@@ -36,7 +36,7 @@ export function StoryDivider() {
         style={{
           width: '160px',
           height: '1px',
-          background: 'linear-gradient(90deg, transparent, hsl(210 100% 55% / 0.5), hsl(270 60% 55% / 0.5), transparent)',
+          background: 'linear-gradient(90deg, transparent, hsl(var(--neon-blue) / 0.5), hsl(var(--neon-purple) / 0.5), transparent)',
           willChange: 'transform',
         }}
       />
@@ -79,7 +79,7 @@ export function ChapterMarker({ number, label }: { number: string; label: string
         style={{
           width: '1px',
           height: '48px',
-          background: 'linear-gradient(to bottom, transparent, hsl(210 100% 55% / 0.5))',
+          background: 'linear-gradient(to bottom, transparent, hsl(var(--neon-blue) / 0.5))',
           willChange: 'transform',
         }}
       />
@@ -125,8 +125,8 @@ export function AmbientDots() {
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
             background: i % 2 === 0
-              ? 'hsl(210 100% 55% / 0.3)'
-              : 'hsl(270 60% 55% / 0.2)',
+              ? 'hsl(var(--neon-blue) / 0.3)'
+              : 'hsl(var(--neon-purple) / 0.2)',
           }}
         />
       ))}
