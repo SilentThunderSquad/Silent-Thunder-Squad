@@ -82,7 +82,7 @@ export default function HeroSection() {
 
         <p
           ref={taglineRef}
-          className="text-fluid-tagline uppercase tracking-[0.4em] text-slate-500 mb-6 font-light text-center opacity-0"
+          className="text-fluid-tagline uppercase tracking-[0.4em] text-muted-foreground mb-6 font-light text-center opacity-0"
         >
           Est. 2025 — Innovation Collective
         </p>
@@ -98,7 +98,7 @@ export default function HeroSection() {
             }}
           />
           <h1
-            className="font-display font-bold mb-8 text-slate-900 text-fluid-hero text-center mx-auto max-w-[14ch] sm:max-w-none sm:whitespace-nowrap"
+            className="font-display font-bold mb-8 text-foreground text-fluid-hero text-center mx-auto max-w-[14ch] sm:max-w-none sm:whitespace-nowrap"
           >
             Silent Thunder Squad
           </h1>
@@ -106,14 +106,14 @@ export default function HeroSection() {
         </div>
 
         <div ref={subtitleRef} className="opacity-0">
-          <p className="text-fluid-lead text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-fluid-lead text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
             Building Real-World Solutions with Innovation
           </p>
         </div>
 
         <div ref={scrollRef} className="mt-16 flex flex-col items-center gap-2 animate-float opacity-0">
-          <span className="text-xs uppercase tracking-[0.3em] text-slate-400">Scroll to explore</span>
-          <div className="w-px h-12 bg-slate-300" />
+          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground/60">Scroll to explore</span>
+          <div className="w-px h-12 bg-border" />
         </div>
       </div>
     </section>
