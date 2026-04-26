@@ -6,6 +6,7 @@ import LoadingScreen from '../components/LoadingScreen';
 import CustomCursor from '../components/CustomCursor';
 import ScrollProgress from '../components/ScrollProgress';
 import FloatingCommandBar from '../components/FloatingCommandBar';
+import ThemeToggle from '../components/ThemeToggle';
 import HeroSection from '../components/sections/HeroSection';
 import AboutSection from '../components/sections/AboutSection';
 import ServicesSection from '../components/sections/ServicesSection';
@@ -69,6 +70,7 @@ export default function Index() {
           <ScrollProgress />
           <CustomCursor />
           <FloatingCommandBar />
+          <ThemeToggle />
           <main>
             {/* Chapter 1: Hero */}
             <div id="top">
