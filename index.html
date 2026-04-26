@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en" dir="ltr">
   <head>
+    <!-- Theme FOUC prevention — must run before any CSS paints -->
+    <script>
+      (function(){var t=localStorage.getItem('theme');if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}})();
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
