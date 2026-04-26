@@ -96,12 +96,12 @@ export function ScrollMarquee({ words, direction = 'left' }: { words: string[]; 
               key={i}
               className="font-heading text-6xl md:text-8xl lg:text-[10rem] font-bold leading-none"
               style={isHighlighted ? {
-                background: 'linear-gradient(135deg, hsl(210 100% 55% / 0.6), hsl(270 60% 55% / 0.5))',
+                background: 'linear-gradient(135deg, hsl(var(--neon-blue) / 0.6), hsl(var(--neon-purple) / 0.5))',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 20px hsl(210 100% 55% / 0.3))',
+                filter: 'drop-shadow(0 0 20px hsl(var(--neon-blue) / 0.3))',
               } : {
-                WebkitTextStroke: '1.5px hsl(210 100% 55% / 0.4)',
+                WebkitTextStroke: '1.5px hsl(var(--neon-blue) / 0.4)',
                 WebkitTextFillColor: 'transparent',
               }}
             >
