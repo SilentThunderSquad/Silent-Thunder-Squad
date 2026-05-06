@@ -3,18 +3,18 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import { ExternalLink, Github } from 'lucide-react';
-import neuralVaultImg from '@/assets/project-neuralvault.jpg';
-import cipherLinkImg from '@/assets/project-cipherlink.jpg';
-import quantumDashImg from '@/assets/project-quantumdash.jpg';
+import aroviaImg from '@/assets/project-arovia.png';
+import billVaultImg from '@/assets/project-billvault.png';
+import readmeGenImg from '@/assets/project-readmegen.png';
 import ecoSphereImg from '@/assets/project-ecosphere.jpg';
 import arcRealityImg from '@/assets/project-arcreality.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { title: 'Arovia', desc: 'The AI-Powered Doctor Recommendation System helps you quickly find the right doctor based on your symptoms, location, and preferences. Using smart AI, it gives personalized suggestions so you can get the best care without wasting time.', tag: 'Machine Learning', color: '#3b82f6', image: neuralVaultImg, demo: 'https://arovia.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/Arovia', altText: 'Arovia — AI-powered doctor recommendation system built by Silent Thunder Squad, showcasing machine learning web development in India' },
-  { title: 'Bill Vault', desc: 'Bill Vault is a smart platform that helps you easily store and manage your bills, receipts, and warranties in one place. With features like automatic scanning, warranty tracking, and timely reminders, it keeps everything organized so you never miss important details.', tag: 'Security', color: '#8b5cf6', image: cipherLinkImg, demo: 'https://billvault.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/Bill-Vault', altText: 'Bill Vault — smart bill and receipt management web app developed by student developers at Silent Thunder Squad India' },
-  { title: 'GitHub Profile README Generator', desc: 'GitHub Profile README Generator is a smart tool that helps developers create clean, professional, and attractive GitHub profile READMEs in minutes. It simplifies the process by generating well-structured content, allowing users to showcase their skills, projects, and achievements effortlessly.', tag: 'Automation', color: '#06b6d4', image: quantumDashImg, demo: 'https://readmegen.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/GitHub-Profile-README-Generator', altText: 'GitHub Profile README Generator — developer automation tool by Silent Thunder Squad, custom web app development India' },
+  { title: 'Arovia', desc: 'The AI-Powered Doctor Recommendation System helps you quickly find the right doctor based on your symptoms, location, and preferences. Using smart AI, it gives personalized suggestions so you can get the best care without wasting time.', tag: 'Machine Learning', color: '#3b82f6', image: aroviaImg, demo: 'https://arovia.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/Arovia', altText: 'Arovia — AI-powered doctor recommendation system built by Silent Thunder Squad, showcasing machine learning web development in India' },
+  { title: 'Bill Vault', desc: 'Bill Vault is a smart platform that helps you easily store and manage your bills, receipts, and warranties in one place. With features like automatic scanning, warranty tracking, and timely reminders, it keeps everything organized so you never miss important details.', tag: 'Security', color: '#8b5cf6', image: billVaultImg, demo: 'https://billvault.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/Bill-Vault', altText: 'Bill Vault — smart bill and receipt management web app developed by student developers at Silent Thunder Squad India' },
+  { title: 'GitHub Profile README Generator', desc: 'GitHub Profile README Generator is a smart tool that helps developers create clean, professional, and attractive GitHub profile READMEs in minutes. It simplifies the process by generating well-structured content, allowing users to showcase their skills, projects, and achievements effortlessly.', tag: 'Automation', color: '#06b6d4', image: readmeGenImg, demo: 'https://readmegen.silentthundersquad.in', github: 'https://github.com/SilentThunderSquad/GitHub-Profile-README-Generator', altText: 'GitHub Profile README Generator — developer automation tool by Silent Thunder Squad, custom web app development India' },
   // { title: 'EcoSphere', desc: 'Sustainable living companion application', tag: 'Mobile', color: '#10b981', image: ecoSphereImg, demo: 'https://example.com', github: 'https://github.com' },
   // { title: 'ArcReality', desc: 'Immersive AR experience engine', tag: 'AR/VR', color: '#f59e0b', image: arcRealityImg, demo: 'https://example.com', github: 'https://github.com' },
 ];
